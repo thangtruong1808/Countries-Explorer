@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import {
   Box,
   Drawer,
   IconButton,
   Typography,
   Paper,
+  Button,
   useTheme,
   useMediaQuery,
   Divider
@@ -12,7 +13,8 @@ import {
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  FilterList as FilterIcon
+  FilterList as FilterIcon,
+  Refresh as RefreshIcon
 } from '@mui/icons-material';
 import { ContinentFilter } from './ContinentFilter';
 import { LanguageFilter } from './LanguageFilter';
@@ -21,6 +23,8 @@ import { Z_INDEX } from '../utils/styleConstants';
 import { useClickOutside } from '../utils/clickOutside';
 import { SPACING, BORDER_RADIUS } from '../utils/styleUtils';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
+import { getCountriesByContinents, hasActiveFilters } from '../utils/filterUtils';
+import { FONT_WEIGHTS } from '../utils/typographyUtils';
 
 interface SideNavProps {
   continents: Continent[];
@@ -29,6 +33,7 @@ interface SideNavProps {
   selectedLanguages: string[];
   onContinentToggle: (code: string) => void;
   onLanguageToggle: (languageName: string) => void;
+  onResetFilters?: () => void;
 }
 
 export const SideNav: React.FC<SideNavProps> = ({
@@ -37,12 +42,22 @@ export const SideNav: React.FC<SideNavProps> = ({
   selectedContinents,
   selectedLanguages,
   onContinentToggle,
-  onLanguageToggle
+  onLanguageToggle,
+  onResetFilters
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Get countries filtered by selected continents for language filter
+  const filteredCountriesForLanguages = useMemo(() =>
+    getCountriesByContinents(countries, selectedContinents),
+    [countries, selectedContinents]
+  );
+
+  // Check if any filters are active
+  const hasActiveFiltersState = hasActiveFilters(selectedContinents, selectedLanguages);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -50,6 +65,12 @@ export const SideNav: React.FC<SideNavProps> = ({
 
   const handleClose = () => {
     setIsOpen(false);
+  };
+
+  const handleResetFilters = () => {
+    if (onResetFilters) {
+      onResetFilters();
+    }
   };
 
   // Use the click outside hook
@@ -129,18 +150,61 @@ export const SideNav: React.FC<SideNavProps> = ({
           }}
         >
           <LanguageFilter
-            countries={countries}
+            countries={filteredCountriesForLanguages}
             selectedLanguages={selectedLanguages}
             onLanguageToggle={onLanguageToggle}
+            isFiltered={selectedContinents.length > 0}
           />
         </Paper>
 
+        {/* Reset Filters Container */}
+        {hasActiveFiltersState && onResetFilters && (
+          <>
+            <Divider sx={{ my: SPACING.LG }} />
+            <Paper
+              elevation={0}
+              sx={{
+                p: SPACING.LG,
+                borderRadius: BORDER_RADIUS.LARGE,
+                border: 1,
+                borderColor: BORDER_COLORS.DIVIDER,
+                background: BACKGROUND_COLORS.DEFAULT,
+                mb: SPACING.LG,
+              }}
+            >
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" sx={{
+                  color: 'text.secondary',
+                  fontWeight: FONT_WEIGHTS.MEDIUM,
+                  mb: SPACING.MD
+                }}>
+                  Active Filters
+                </Typography>
+                <Button
+                  variant="outlined"
+                  startIcon={<RefreshIcon />}
+                  onClick={handleResetFilters}
+                  sx={{
+                    borderRadius: BORDER_RADIUS.MEDIUM,
+                    textTransform: 'none',
+                    fontWeight: FONT_WEIGHTS.MEDIUM,
+                    px: SPACING.LG,
+                  }}
+                  fullWidth
+                >
+                  Clear All Filters
+                </Button>
+              </Box>
+            </Paper>
+          </>
+        )}
+
         {/* Future Features Placeholder */}
-        <Box sx={{ mt: SPACING.XL }}>
+        {/* <Box sx={{ mt: SPACING.XL }}>
           <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
             More filters coming soon...
           </Typography>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

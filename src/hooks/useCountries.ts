@@ -8,6 +8,7 @@ export const useCountries = () => {
   return {
     countries: data?.countries || [],
     continents: data?.continents || [],
+    totalCount: data?.countries?.length || 0,
     loading,
     error
   };

@@ -6,41 +6,23 @@ import { ICON_STYLES } from '../utils/iconStyles';
 import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS, TEXT_COLORS } from '../utils/colorUtils';
 import { BORDER_RADIUS, TRANSITIONS, SPACING, TRANSFORMS, CURSORS, DISPLAY, FLEX, BORDER } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
+import { getAllLanguages } from '../utils/languageUtils';
 
 interface LanguageFilterProps {
   countries: Country[];
   selectedLanguages: string[];
   onLanguageToggle: (languageName: string) => void;
+  isFiltered?: boolean;
 }
 
 export const LanguageFilter: React.FC<LanguageFilterProps> = ({
   countries,
   selectedLanguages,
-  onLanguageToggle
+  onLanguageToggle,
+  isFiltered = false
 }) => {
-  // Extract all unique languages from countries
-  const getAllLanguages = (): Array<{ name: string; count: number }> => {
-    const languageMap = new Map<string, number>();
-
-    countries.forEach(country => {
-      country.languages.forEach(language => {
-        const currentCount = languageMap.get(language.name) || 0;
-        languageMap.set(language.name, currentCount + 1);
-      });
-    });
-
-    // Convert to array and sort by count (descending) then by name
-    return Array.from(languageMap.entries())
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => {
-        if (b.count !== a.count) {
-          return b.count - a.count; // Sort by count descending
-        }
-        return a.name.localeCompare(b.name); // Then by name alphabetically
-      });
-  };
-
-  const languages = getAllLanguages();
+  // Use centralized language utility
+  const languages = getAllLanguages(countries);
 
   const handleToggle = (languageName: string) => {
     onLanguageToggle(languageName);
@@ -67,7 +49,7 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <LanguageIcon sx={ICON_STYLES.PRIMARY} />
         <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
-          Filter by language ({languages.length} available)
+          Filter by language ({languages.length} available{isFiltered ? ' in selected continents' : ''})
         </Typography>
       </Box>
 

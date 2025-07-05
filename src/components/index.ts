@@ -8,4 +8,6 @@ export { LoadingSpinner } from './LoadingSpinner';
 export { ErrorMessage } from './ErrorMessage';
 export { Footer } from './Footer';
 export { ThemeToggle } from './ThemeToggle';
-export { SideNav } from './SideNav'; 
+export { SideNav } from './SideNav';
+export { MultipleLanguagesInfo } from './MultipleLanguagesInfo';
+export { LoadMoreButton } from './LoadMoreButton'; 

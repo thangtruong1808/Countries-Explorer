@@ -35,6 +35,22 @@ export const filterCountriesByLanguages = (countries: Country[], selectedLanguag
   );
 };
 
+// Get countries filtered by continents only (for language filter)
+export const getCountriesByContinents = (countries: Country[], selectedContinentCodes: string[]): Country[] => {
+  return filterCountriesByContinents(countries, selectedContinentCodes);
+};
+
+// Check if any filters are active
+export const hasActiveFilters = (
+  selectedContinents: string[],
+  selectedLanguages: string[],
+  searchTerm: string = ''
+): boolean => {
+  return selectedContinents.length > 0 || 
+         selectedLanguages.length > 0 || 
+         searchTerm.trim().length > 0;
+};
+
 // Apply all filters (name, continent, and language)
 export const applyFilters = (
   countries: Country[],
