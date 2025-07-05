@@ -1,9 +1,10 @@
-import React, { StrictMode, useState, useMemo } from 'react';
-import { createRoot } from 'react-dom/client'
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import './index.css'
-import App from './App.tsx'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React, { StrictMode, useMemo, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.tsx';
+import './index.css';
 
 import { ApolloProvider } from '@apollo/client';
 import client from './lib/apolloClient';
@@ -74,12 +75,14 @@ const AppWithTheme: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ApolloProvider client={client}>
-        <App isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
-      </ApolloProvider>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ApolloProvider client={client}>
+          <App isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+        </ApolloProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };
 

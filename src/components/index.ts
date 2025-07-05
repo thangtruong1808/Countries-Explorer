@@ -1,6 +1,7 @@
 export { SearchBar } from './SearchBar';
 export { ContinentFilter } from './ContinentFilter';
 export { LanguageFilter } from './LanguageFilter';
+export { CurrencyFilter } from './CurrencyFilter';
 export { CountryCard } from './CountryCard';
 export { CountryGrid } from './CountryGrid';
 export { CountryDetail } from './CountryDetail';

@@ -1,23 +1,39 @@
-import React from 'react';
-import { FormGroup, FormControlLabel, Checkbox, Box, Typography, Chip } from '@mui/material';
 import { Public as ContinentIcon } from '@mui/icons-material';
-import type { Continent } from '../types';
+import { Box, Chip, Typography } from '@mui/material';
+import React from 'react';
+import type { Continent, Country } from '../types';
+import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS } from '../utils/colorUtils';
+import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
+import { getContinentCounts, getUniqueContinents } from '../utils/continentUtils';
 import { ICON_STYLES } from '../utils/iconStyles';
-import { PRIMARY_COLORS, BACKGROUND_COLORS, SHADOW_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { TRANSITIONS, SPACING, BORDER_RADIUS, TRANSFORMS, BOX_SHADOWS, CURSORS, BORDER } from '../utils/styleUtils';
+import { BORDER, BOX_SHADOWS, CURSORS, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 
 interface ContinentFilterProps {
   continents: Continent[];
+  countries: Country[]; // Filtered countries based on other filters
   selectedContinents: string[]; // Array of selected continent codes
   onContinentToggle: (code: string) => void;
+  isFiltered?: boolean; // Indicates if countries are filtered by other criteria
 }
 
 export const ContinentFilter: React.FC<ContinentFilterProps> = ({
   continents,
+  countries,
   selectedContinents,
-  onContinentToggle
+  onContinentToggle,
+  isFiltered = false
 }) => {
+  // Get available continents from filtered countries
+  const availableContinents = React.useMemo(() => {
+    return getUniqueContinents(countries);
+  }, [countries]);
+
+  // Get continent counts for display
+  const continentCounts = React.useMemo(() => {
+    return getContinentCounts(countries);
+  }, [countries]);
+
   // Handle checkbox toggle for continent selection
   const handleToggle = (code: string) => {
     onContinentToggle(code);
@@ -25,18 +41,18 @@ export const ContinentFilter: React.FC<ContinentFilterProps> = ({
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
         <ContinentIcon sx={ICON_STYLES.PRIMARY} />
         <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
-          Filter by continent ({continents.length} available)
+          Filter by continent ({availableContinents.length} available{isFiltered ? ' in filtered countries' : ''})
         </Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-        {continents.map((continent) => (
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, ...FILTER_COMPONENT_STYLES.COMPACT_CONTAINER }}>
+        {availableContinents.map((continent) => (
           <Chip
             key={continent.code}
-            label={continent.name}
+            label={`${continent.name} (${continentCounts[continent.code] || 0})`}
             onClick={() => handleToggle(continent.code)}
             variant={selectedContinents.includes(continent.code) ? "filled" : "outlined"}
             color={selectedContinents.includes(continent.code) ? "primary" : "default"}
@@ -59,32 +75,20 @@ export const ContinentFilter: React.FC<ContinentFilterProps> = ({
 
       {/* Selected Continents Summary */}
       {selectedContinents.length > 0 && (
-        <Box sx={{ mt: SPACING.MD, p: SPACING.MD, borderRadius: BORDER_RADIUS.MEDIUM, background: BACKGROUND_COLORS.HOVER, border: BORDER.SOLID_1, borderColor: BORDER_COLORS.DIVIDER }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.MEDIUM, mb: 1 }}>
+        <Box sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_SUMMARY}>
+          <Typography variant="body2" sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_TYPOGRAPHY}>
             Selected Continents ({selectedContinents.length}):
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {selectedContinents.map((continentCode) => {
-              const continent = continents.find(c => c.code === continentCode);
+              const continent = availableContinents.find(c => c.code === continentCode) || continents.find(c => c.code === continentCode);
               return (
                 <Chip
                   key={continentCode}
                   label={continent?.name || continentCode}
                   size="small"
                   onDelete={() => handleToggle(continentCode)}
-                  sx={{
-                    background: PRIMARY_COLORS.LIGHT,
-                    color: 'primary.main',
-                    border: BORDER.SOLID_1,
-                    borderColor: 'primary.main',
-                    fontSize: FONT_SIZES.SM,
-                    height: 24,
-                    transition: TRANSITIONS.NORMAL,
-                    '&:hover': {
-                      background: PRIMARY_COLORS.MEDIUM,
-                      transform: TRANSFORMS.HOVER_LIFT,
-                    },
-                  }}
+                  sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_CHIP}
                 />
               );
             })}

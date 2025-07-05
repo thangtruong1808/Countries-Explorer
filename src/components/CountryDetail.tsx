@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Dialog,
   DialogTitle,
@@ -39,11 +40,19 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
   open,
   onClose
 }) => {
+  const navigate = useNavigate();
   const [description, setDescription] = useState<string>('');
   const [loadingDescription, setLoadingDescription] = useState<boolean>(false);
 
   const handleClose = () => {
     onClose();
+  };
+
+  const handleGoToPage = () => {
+    if (country) {
+      navigate(`/country/${country.code}`);
+      onClose();
+    }
   };
 
   // Load country description when country changes
@@ -422,10 +431,10 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
         </Box>
       </DialogContent>
 
-      <DialogActions sx={{ p: 3, pt: 0 }}>
+      <DialogActions sx={{ p: 3, pt: 0, gap: 2 }}>
         <Button
           onClick={handleClose}
-          variant="contained"
+          variant="outlined"
           sx={{
             borderRadius: 2,
             textTransform: 'none',
@@ -434,6 +443,18 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
           }}
         >
           Close
+        </Button>
+        <Button
+          onClick={handleGoToPage}
+          variant="contained"
+          sx={{
+            borderRadius: 2,
+            textTransform: 'none',
+            fontWeight: 600,
+            px: 3,
+          }}
+        >
+          Go to Page Detail
         </Button>
       </DialogActions>
     </Dialog>

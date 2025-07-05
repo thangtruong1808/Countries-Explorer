@@ -18,21 +18,31 @@ import {
 } from '@mui/icons-material';
 import { ContinentFilter } from './ContinentFilter';
 import { LanguageFilter } from './LanguageFilter';
+import { CurrencyFilter } from './CurrencyFilter';
 import type { Continent, Country } from '../types';
 import { Z_INDEX } from '../utils/styleConstants';
 import { useClickOutside } from '../utils/clickOutside';
 import { SPACING, BORDER_RADIUS } from '../utils/styleUtils';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { getCountriesByContinents, hasActiveFilters } from '../utils/filterUtils';
+import {
+  getCountriesByContinents,
+  getCountriesByContinentsAndLanguages,
+  getCountriesByContinentsAndCurrencies,
+  getCountriesByLanguagesAndCurrencies,
+  hasActiveFilters
+} from '../utils/filterUtils';
 import { FONT_WEIGHTS } from '../utils/typographyUtils';
+import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
 
 interface SideNavProps {
   continents: Continent[];
   countries: Country[];
   selectedContinents: string[];
   selectedLanguages: string[];
+  selectedCurrencies: string[];
   onContinentToggle: (code: string) => void;
   onLanguageToggle: (languageName: string) => void;
+  onCurrencyToggle: (currency: string) => void;
   onResetFilters?: () => void;
 }
 
@@ -41,8 +51,10 @@ export const SideNav: React.FC<SideNavProps> = ({
   countries,
   selectedContinents,
   selectedLanguages,
+  selectedCurrencies,
   onContinentToggle,
   onLanguageToggle,
+  onCurrencyToggle,
   onResetFilters
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -50,14 +62,26 @@ export const SideNav: React.FC<SideNavProps> = ({
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Get countries filtered by selected continents for language filter
+  // Get countries filtered by languages and currencies for continent filter
+  const filteredCountriesForContinents = useMemo(() =>
+    getCountriesByLanguagesAndCurrencies(countries, selectedLanguages, selectedCurrencies),
+    [countries, selectedLanguages, selectedCurrencies]
+  );
+
+  // Get countries filtered by continents and currencies for language filter
   const filteredCountriesForLanguages = useMemo(() =>
-    getCountriesByContinents(countries, selectedContinents),
-    [countries, selectedContinents]
+    getCountriesByContinentsAndCurrencies(countries, selectedContinents, selectedCurrencies),
+    [countries, selectedContinents, selectedCurrencies]
+  );
+
+  // Get countries filtered by both continents and languages for currency filter
+  const filteredCountriesForCurrencies = useMemo(() =>
+    getCountriesByContinentsAndLanguages(countries, selectedContinents, selectedLanguages),
+    [countries, selectedContinents, selectedLanguages]
   );
 
   // Check if any filters are active
-  const hasActiveFiltersState = hasActiveFilters(selectedContinents, selectedLanguages);
+  const hasActiveFiltersState = hasActiveFilters(selectedContinents, selectedLanguages, selectedCurrencies);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -76,7 +100,7 @@ export const SideNav: React.FC<SideNavProps> = ({
   // Use the click outside hook
   useClickOutside(drawerRef, isOpen, handleClose, ['[data-side-nav-toggle]']);
 
-  const drawerWidth = 380;
+  const drawerWidth = 340; // Reduced from 380 for more compact layout
 
   const drawerContent = (
     <Box
@@ -85,7 +109,7 @@ export const SideNav: React.FC<SideNavProps> = ({
     >
       {/* Header */}
       <Box sx={{
-        p: SPACING.LG,
+        p: SPACING.MD, // Reduced from LG
         borderBottom: 1,
         borderColor: BORDER_COLORS.DIVIDER,
         background: BACKGROUND_COLORS.PAPER,
@@ -115,69 +139,61 @@ export const SideNav: React.FC<SideNavProps> = ({
       </Box>
 
       {/* Content */}
-      <Box sx={{ flex: 1, p: SPACING.LG, overflowY: 'auto' }}>
+      <Box sx={{ flex: 1, p: SPACING.MD, overflowY: 'auto' }}> {/* Reduced from LG */}
         {/* Continent Filter */}
         <Paper
           elevation={0}
-          sx={{
-            p: SPACING.LG,
-            borderRadius: BORDER_RADIUS.LARGE,
-            border: 1,
-            borderColor: BORDER_COLORS.DIVIDER,
-            background: BACKGROUND_COLORS.DEFAULT,
-            mb: SPACING.LG,
-          }}
+          sx={FILTER_COMPONENT_STYLES.COMPACT_PAPER}
         >
           <ContinentFilter
             continents={continents}
+            countries={filteredCountriesForContinents}
             selectedContinents={selectedContinents}
             onContinentToggle={onContinentToggle}
+            isFiltered={selectedLanguages.length > 0 || selectedCurrencies.length > 0}
           />
         </Paper>
 
-        <Divider sx={{ my: SPACING.LG }} />
+        <Divider sx={FILTER_COMPONENT_STYLES.COMPACT_DIVIDER} />
 
         {/* Language Filter */}
         <Paper
           elevation={0}
-          sx={{
-            p: SPACING.LG,
-            borderRadius: BORDER_RADIUS.LARGE,
-            border: 1,
-            borderColor: BORDER_COLORS.DIVIDER,
-            background: BACKGROUND_COLORS.DEFAULT,
-            mb: SPACING.LG,
-          }}
+          sx={FILTER_COMPONENT_STYLES.COMPACT_PAPER}
         >
           <LanguageFilter
             countries={filteredCountriesForLanguages}
             selectedLanguages={selectedLanguages}
             onLanguageToggle={onLanguageToggle}
-            isFiltered={selectedContinents.length > 0}
+            isFiltered={selectedContinents.length > 0 || selectedCurrencies.length > 0}
+          />
+        </Paper>
+
+        <Divider sx={FILTER_COMPONENT_STYLES.COMPACT_DIVIDER} />
+
+        {/* Currency Filter */}
+        <Paper
+          elevation={0}
+          sx={FILTER_COMPONENT_STYLES.COMPACT_PAPER}
+        >
+          <CurrencyFilter
+            countries={filteredCountriesForCurrencies}
+            selectedCurrencies={selectedCurrencies}
+            onCurrencyToggle={onCurrencyToggle}
+            isFiltered={selectedContinents.length > 0 || selectedLanguages.length > 0}
           />
         </Paper>
 
         {/* Reset Filters Container */}
         {hasActiveFiltersState && onResetFilters && (
           <>
-            <Divider sx={{ my: SPACING.LG }} />
+            <Divider sx={FILTER_COMPONENT_STYLES.COMPACT_DIVIDER} />
             <Paper
               elevation={0}
-              sx={{
-                p: SPACING.LG,
-                borderRadius: BORDER_RADIUS.LARGE,
-                border: 1,
-                borderColor: BORDER_COLORS.DIVIDER,
-                background: BACKGROUND_COLORS.DEFAULT,
-                mb: SPACING.LG,
-              }}
+              sx={FILTER_COMPONENT_STYLES.COMPACT_ACTIVE_FILTERS}
             >
               <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="body2" sx={{
-                  color: 'text.secondary',
-                  fontWeight: FONT_WEIGHTS.MEDIUM,
-                  mb: SPACING.MD
-                }}>
+                <Typography variant="body2" sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_TYPOGRAPHY}>
                   Active Filters
                 </Typography>
                 <Button

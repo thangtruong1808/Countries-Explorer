@@ -9,14 +9,16 @@ export const getNoResultsMessage = (
   searchTerm: string,
   selectedContinents: string[],
   selectedLanguages: string[],
+  selectedCurrencies: string[] = [],
   continents: Continent[]
 ): string => {
   const hasSearch = searchTerm.trim().length > 0;
   const hasContinentFilter = selectedContinents.length > 0;
   const hasLanguageFilter = selectedLanguages.length > 0;
+  const hasCurrencyFilter = selectedCurrencies.length > 0;
 
   // If no filters are applied, show generic message
-  if (!hasSearch && !hasContinentFilter && !hasLanguageFilter) {
+  if (!hasSearch && !hasContinentFilter && !hasLanguageFilter && !hasCurrencyFilter) {
     return 'No countries found matching your search criteria.';
   }
 
@@ -38,6 +40,10 @@ export const getNoResultsMessage = (
     filterParts.push(`language${selectedLanguages.length > 1 ? 's' : ''} (${selectedLanguages.join(', ')})`);
   }
 
+  if (hasCurrencyFilter) {
+    filterParts.push(`currency${selectedCurrencies.length > 1 ? 's' : ''} (${selectedCurrencies.join(', ')})`);
+  }
+
   // Create the message
   if (filterParts.length === 1) {
     return `No countries found matching ${filterParts[0]}.`;
@@ -53,7 +59,8 @@ export const getNoResultsMessage = (
 export const getFilterSuggestions = (
   searchTerm: string,
   selectedContinents: string[],
-  selectedLanguages: string[]
+  selectedLanguages: string[],
+  selectedCurrencies: string[] = []
 ): string[] => {
   const suggestions: string[] = [];
 
@@ -69,8 +76,20 @@ export const getFilterSuggestions = (
     suggestions.push('Try selecting different languages or clearing language filters.');
   }
 
+  if (selectedCurrencies.length > 0) {
+    suggestions.push('Try selecting different currencies or clearing currency filters.');
+  }
+
   if (selectedContinents.length > 0 && selectedLanguages.length > 0) {
     suggestions.push('The combination of selected continents and languages may be too restrictive.');
+  }
+
+  if (selectedContinents.length > 0 && selectedCurrencies.length > 0) {
+    suggestions.push('The combination of selected continents and currencies may be too restrictive.');
+  }
+
+  if (selectedLanguages.length > 0 && selectedCurrencies.length > 0) {
+    suggestions.push('The combination of selected languages and currencies may be too restrictive.');
   }
 
   return suggestions;
@@ -80,7 +99,8 @@ export const getFilterSuggestions = (
 export const getFilterSummary = (
   selectedContinents: string[],
   selectedLanguages: string[],
-  continents: Continent[]
+  continents: Continent[],
+  selectedCurrencies: string[] = []
 ): string => {
   const parts: string[] = [];
 
@@ -95,11 +115,18 @@ export const getFilterSummary = (
     parts.push(`${selectedLanguages.length} language${selectedLanguages.length > 1 ? 's' : ''} (${selectedLanguages.join(', ')})`);
   }
 
+  if (selectedCurrencies.length > 0) {
+    parts.push(`${selectedCurrencies.length} currency${selectedCurrencies.length > 1 ? 's' : ''} (${selectedCurrencies.join(', ')})`);
+  }
+
   if (parts.length === 0) {
     return 'No filters applied';
   } else if (parts.length === 1) {
     return `Filtered by ${parts[0]}`;
-  } else {
+  } else if (parts.length === 2) {
     return `Filtered by ${parts[0]} and ${parts[1]}`;
+  } else {
+    const lastPart = parts.pop();
+    return `Filtered by ${parts.join(', ')}, and ${lastPart}`;
   }
 }; 

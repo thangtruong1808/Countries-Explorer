@@ -1,10 +1,10 @@
-import React from 'react';
-import { Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import { LocationOn as LocationIcon } from '@mui/icons-material';
+import { Box, Card, CardContent, Chip, Typography } from '@mui/material';
+import React from 'react';
 import type { Country } from '../types';
+import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS } from '../utils/colorUtils';
 import { getFlagUrl } from '../utils/flagUtils';
-import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { BORDER_RADIUS, SPACING, TRANSITIONS, TRANSFORMS, CURSORS } from '../utils/styleUtils';
+import { BORDER_RADIUS, CURSORS, TRANSITIONS } from '../utils/styleUtils';
 import { FONT_WEIGHTS } from '../utils/typographyUtils';
 
 interface CountryCardProps {

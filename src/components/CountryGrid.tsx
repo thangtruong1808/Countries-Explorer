@@ -1,12 +1,12 @@
-import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
-import { CountryCard } from './CountryCard';
-import type { Country, Continent } from '../types';
-import { getNoResultsMessage, getFilterSuggestions } from '../utils/messageUtils';
+import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
+import type { Continent, Country } from '../types';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { BORDER_RADIUS, SPACING, BORDER } from '../utils/styleUtils';
+import { getFilterSuggestions, getNoResultsMessage } from '../utils/messageUtils';
+import { BORDER, BORDER_RADIUS, SPACING } from '../utils/styleUtils';
 import { FONT_WEIGHTS } from '../utils/typographyUtils';
+import { CountryCard } from './CountryCard';
 
 interface CountryGridProps {
   countries: Country[];
@@ -14,6 +14,7 @@ interface CountryGridProps {
   searchTerm?: string;
   selectedContinents?: string[];
   selectedLanguages?: string[];
+  selectedCurrencies?: string[];
   continents?: Continent[];
   onClearFilters?: () => void;
 }
@@ -24,6 +25,7 @@ export const CountryGrid: React.FC<CountryGridProps> = ({
   searchTerm = '',
   selectedContinents = [],
   selectedLanguages = [],
+  selectedCurrencies = [],
   continents = [],
   onClearFilters
 }) => {
@@ -32,9 +34,10 @@ export const CountryGrid: React.FC<CountryGridProps> = ({
       searchTerm,
       selectedContinents,
       selectedLanguages,
+      selectedCurrencies,
       continents
     );
-    const suggestions = getFilterSuggestions(searchTerm, selectedContinents, selectedLanguages);
+    const suggestions = getFilterSuggestions(searchTerm, selectedContinents, selectedLanguages, selectedCurrencies);
 
     return (
       <Box
@@ -75,7 +78,7 @@ export const CountryGrid: React.FC<CountryGridProps> = ({
           </Box>
         )}
 
-        {onClearFilters && (selectedContinents.length > 0 || selectedLanguages.length > 0 || searchTerm.trim().length > 0) && (
+        {onClearFilters && (selectedContinents.length > 0 || selectedLanguages.length > 0 || selectedCurrencies.length > 0 || searchTerm.trim().length > 0) && (
           <Button
             variant="outlined"
             startIcon={<RefreshIcon />}

@@ -7,12 +7,13 @@ import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS, TEXT_COLORS } from '.
 import { BORDER_RADIUS, TRANSITIONS, SPACING, TRANSFORMS, CURSORS, DISPLAY, FLEX, BORDER } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 import { getAllLanguages } from '../utils/languageUtils';
+import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
 
 interface LanguageFilterProps {
-  countries: Country[];
+  countries: Country[]; // Filtered countries based on other filters
   selectedLanguages: string[];
   onLanguageToggle: (languageName: string) => void;
-  isFiltered?: boolean;
+  isFiltered?: boolean; // Indicates if countries are filtered by other criteria
 }
 
 export const LanguageFilter: React.FC<LanguageFilterProps> = ({
@@ -31,7 +32,7 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
   if (languages.length === 0) {
     return (
       <Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
           <LanguageIcon sx={ICON_STYLES.PRIMARY} />
           <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
             Filter by language
@@ -46,24 +47,15 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+      <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
         <LanguageIcon sx={ICON_STYLES.PRIMARY} />
         <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
-          Filter by language ({languages.length} available{isFiltered ? ' in selected continents' : ''})
+          Filter by language ({languages.length} available{isFiltered ? ' in filtered countries' : ''})
         </Typography>
       </Box>
 
       {/* Language Checkboxes - Vertical Layout */}
-      <Box sx={{
-        maxHeight: 200,
-        overflowY: 'auto',
-        mb: 2,
-        border: BORDER.SOLID_1,
-        borderColor: BORDER_COLORS.DIVIDER,
-        borderRadius: BORDER_RADIUS.SMALL,
-        p: SPACING.SM,
-        background: BACKGROUND_COLORS.PAPER
-      }}>
+      <Box sx={FILTER_COMPONENT_STYLES.COMPACT_SCROLLABLE}>
         <FormGroup>
           {languages.map((language) => (
             <Box
@@ -129,8 +121,8 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
 
       {/* Selected Languages Summary */}
       {selectedLanguages.length > 0 && (
-        <Box sx={{ mt: SPACING.MD, p: SPACING.MD, borderRadius: BORDER_RADIUS.MEDIUM, background: BACKGROUND_COLORS.HOVER, border: BORDER.SOLID_1, borderColor: BORDER_COLORS.DIVIDER }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.MEDIUM, mb: 1 }}>
+        <Box sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_SUMMARY}>
+          <Typography variant="body2" sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_TYPOGRAPHY}>
             Selected Languages ({selectedLanguages.length}):
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -142,19 +134,7 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
                   label={`${languageName} (${language?.count || 0})`}
                   size="small"
                   onDelete={() => handleToggle(languageName)}
-                  sx={{
-                    background: PRIMARY_COLORS.LIGHT,
-                    color: TEXT_COLORS.PRIMARY_MAIN,
-                    border: BORDER.SOLID_1,
-                    borderColor: BORDER_COLORS.PRIMARY,
-                    fontSize: FONT_SIZES.SM,
-                    height: 24,
-                    transition: TRANSITIONS.NORMAL,
-                    '&:hover': {
-                      background: PRIMARY_COLORS.MEDIUM,
-                      transform: TRANSFORMS.HOVER_LIFT,
-                    },
-                  }}
+                  sx={FILTER_COMPONENT_STYLES.COMPACT_SELECTED_CHIP}
                 />
               );
             })}
