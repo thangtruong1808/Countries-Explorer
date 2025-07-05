@@ -1,4 +1,4 @@
-import { BORDER_COLORS } from './colorUtils';
+import { BACKGROUND_COLORS, BORDER_COLORS } from './colorUtils';
 import { BORDER } from './styleUtils';
 import { FONT_WEIGHTS } from './typographyUtils';
 
@@ -6,9 +6,9 @@ import { FONT_WEIGHTS } from './typographyUtils';
  * Consistent NavBar styles for both light and dark modes
  */
 export const NAVBAR_STYLES = {
-  // Main AppBar styling - using subtle background
+  // Main AppBar styling - using same background as Footer
   APP_BAR: {
-    background: 'transparent',
+    bgcolor: BACKGROUND_COLORS.PAPER,
     backdropFilter: 'blur(8px)',
     borderBottom: BORDER.SOLID_1,
     borderColor: BORDER_COLORS.DIVIDER,
@@ -106,5 +106,65 @@ export const NAVBAR_STYLES = {
   // Tabs indicator styling
   TABS_INDICATOR: {
     backgroundColor: 'primary.main',
+  },
+  
+  // Mobile menu button styling
+  MENU_BUTTON: {
+    color: 'text.secondary',
+    '&:hover': {
+      backgroundColor: 'action.hover',
+      color: 'primary.main',
+    },
+  },
+  
+  // Mobile drawer styling
+  MOBILE_DRAWER: {
+    '& .MuiDrawer-paper': {
+      top: 0,
+      left: 0,
+      right: 0,
+      height: 'auto',
+      maxHeight: '80vh',
+      borderBottom: BORDER.SOLID_1,
+      borderColor: BORDER_COLORS.DIVIDER,
+      background: 'background.paper',
+      backdropFilter: 'blur(8px)',
+    },
+  },
+  
+  // Mobile drawer list styling
+  MOBILE_DRAWER_LIST: {
+    pt: 1,
+    pb: 1,
+  },
+  
+  // Mobile drawer item styling
+  MOBILE_DRAWER_ITEM: {
+    py: 2,
+    px: 3,
+    '&.Mui-selected': {
+      backgroundColor: 'action.selected',
+      color: 'primary.main',
+      '&:hover': {
+        backgroundColor: 'action.selected',
+      },
+    },
+    '&:hover': {
+      backgroundColor: 'action.hover',
+    },
+  },
+  
+  // Mobile drawer icon styling
+  MOBILE_DRAWER_ICON: {
+    color: 'inherit',
+    minWidth: 40,
+  },
+  
+  // Mobile drawer text styling
+  MOBILE_DRAWER_TEXT: {
+    '& .MuiListItemText-primary': {
+      fontWeight: FONT_WEIGHTS.MEDIUM,
+      fontSize: '1rem',
+    },
   },
 } as const; 

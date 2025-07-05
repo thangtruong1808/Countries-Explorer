@@ -23,11 +23,16 @@ import type { Country } from '../types';
 import { BORDER, BORDER_RADIUS, SPACING, BADGE_STYLES } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS, RESPONSIVE_FONT_SIZES } from '../utils/typographyUtils';
 
-export const HomePage: React.FC = () => {
+export interface HomePageProps {
+  isDarkMode: boolean;
+  onToggleTheme: () => void;
+}
+
+export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme }) => {
   // Tab navigation state
   const [currentTab, setCurrentTab] = useState<string>('home');
 
-  // SideNav state
+  // SideNav state - separate from tab state
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
 
   // Pagination store
@@ -52,9 +57,38 @@ export const HomePage: React.FC = () => {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
 
-  // Handle menu toggle
-  const handleMenuToggle = () => {
-    setIsSideNavOpen(!isSideNavOpen);
+  // Reset all states to initial values
+  const resetAllStates = () => {
+    setSearchTerm('');
+    setSelectedContinents([]);
+    setSelectedLanguages([]);
+    setSelectedCurrencies([]);
+    setSelectedCountry(null);
+    setIsDetailOpen(false);
+    resetPagination();
+  };
+
+  // Handle tab change with reset functionality
+  const handleTabChange = (tab: string) => {
+    if (tab === 'home') {
+      resetAllStates();
+      setIsSideNavOpen(false);
+    } else if (tab === 'filters') {
+      setIsSideNavOpen(true);
+    } else {
+      setIsSideNavOpen(false);
+    }
+    setCurrentTab(tab);
+  };
+
+  // Handle SideNav close without changing tab
+  const handleSideNavClose = () => {
+    setIsSideNavOpen(false);
+  };
+
+  // Handle Filters tab toggle (reopen SideNav when already on Filters tab)
+  const handleFiltersToggle = () => {
+    setIsSideNavOpen(true);
   };
 
   // Toggle continent selection (add/remove from array)
@@ -154,13 +188,14 @@ export const HomePage: React.FC = () => {
       {/* Navigation Bar */}
       <NavBar
         currentTab={currentTab}
-        onTabChange={setCurrentTab}
-        onMenuToggle={handleMenuToggle}
-        showMenuButton={currentTab === 'home'}
+        onTabChange={handleTabChange}
+        isDarkMode={isDarkMode}
+        onToggleTheme={onToggleTheme}
+        onFiltersToggle={handleFiltersToggle}
       />
 
-      {/* Side Navigation - Only show on Home tab */}
-      {currentTab === 'home' && (
+      {/* Side Navigation - Show when filters tab is selected */}
+      {currentTab === 'filters' && (
         <SideNav
           continents={continents}
           countries={countries}
@@ -172,13 +207,13 @@ export const HomePage: React.FC = () => {
           onCurrencyToggle={handleCurrencyToggle}
           onResetFilters={handleClearFilters}
           isOpen={isSideNavOpen}
-          onClose={() => setIsSideNavOpen(false)}
+          onClose={handleSideNavClose}
         />
       )}
 
       {/* Main Content */}
       <Box sx={RESPONSIVE_LAYOUT.FLEX_GROW_CONTAINER}>
-        {currentTab === 'home' && (
+        {(currentTab === 'home' || currentTab === 'filters') && (
           <Container maxWidth="xl" sx={{ py: 4 }}>
             {/* Search Section */}
             <Paper
@@ -319,18 +354,22 @@ export const HomePage: React.FC = () => {
 
         {/* Continent Dashboard Tab */}
         {currentTab === 'dashboard' && (
-          <ContinentDashboard
-            countries={countries}
-            continents={continents}
-          />
+          <Container maxWidth="xl" sx={{ py: 4 }}>
+            <ContinentDashboard
+              countries={countries}
+              continents={continents}
+            />
+          </Container>
         )}
 
         {/* Data Visualization Tab */}
         {currentTab === 'charts' && (
-          <DataVisualization
-            countries={countries}
-            continents={continents}
-          />
+          <Container maxWidth="xl" sx={{ py: 4 }}>
+            <DataVisualization
+              countries={countries}
+              continents={continents}
+            />
+          </Container>
         )}
       </Box>
 

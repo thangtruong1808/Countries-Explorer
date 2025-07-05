@@ -22,42 +22,11 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
   return (
     <Box sx={LAYOUT_STYLES.FULL_HEIGHT}>
       {/* Header */}
-      <Box
-        component="header"
-        sx={{
-          bgcolor: 'background.paper',
-          borderBottom: 1,
-          borderColor: 'divider',
-          ...LAYOUT_STYLES.STICKY_HEADER,
-        }}
-      >
-        <Container maxWidth="xl">
-          <Box
-            sx={{
-              ...LAYOUT_STYLES.SPACE_BETWEEN,
-              py: 2,
-            }}
-          >
-            <Typography
-              variant="h4"
-              onClick={handleTitleClick}
-              sx={{
-                fontWeight: FONT_WEIGHTS.BOLD,
-                color: 'primary.main',
-                fontSize: { xs: '1.5rem', sm: '2rem' },
-                ...NAVIGATION_STYLES.CLICKABLE_TITLE
-              }}
-            >
-              {APP_TITLE}
-            </Typography>
-            <ThemeToggle isDarkMode={isDarkMode} onToggle={onToggleTheme} />
-          </Box>
-        </Container>
-      </Box>
+      {/* NavBar and theme toggle are now handled in HomePage */}
 
       {/* Routes */}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage isDarkMode={isDarkMode} onToggleTheme={onToggleTheme} />} />
         <Route path="/country/:countryCode" element={<CountryDetailPage />} />
       </Routes>
 

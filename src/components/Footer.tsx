@@ -203,14 +203,14 @@ export const Footer: React.FC = () => {
               src={thangTruongImage}
               alt="Thang Truong"
               sx={{
-                width: 40,
-                height: 40,
+                width: 80,
+                height: 80,
                 border: BORDER.SOLID_2,
                 borderColor: 'primary.main',
                 transition: TRANSITIONS.NORMAL,
                 '&:hover': {
                   transform: TRANSFORMS.HOVER_LIFT,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+                  boxShadow: '0 6px 16px rgba(0,0,0,0.2)'
                 }
               }}
             />
