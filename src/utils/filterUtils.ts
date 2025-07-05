@@ -22,14 +22,29 @@ export const filterCountriesByContinents = (countries: Country[], selectedContin
   );
 };
 
-// Apply both name and continent filters
+// Filter countries by selected languages
+export const filterCountriesByLanguages = (countries: Country[], selectedLanguages: string[]): Country[] => {
+  if (selectedLanguages.length === 0) {
+    return countries;
+  }
+  
+  return countries.filter((country) =>
+    country.languages.some((language) =>
+      selectedLanguages.includes(language.name)
+    )
+  );
+};
+
+// Apply all filters (name, continent, and language)
 export const applyFilters = (
   countries: Country[],
   searchTerm: string,
-  selectedContinentCodes: string[]
+  selectedContinentCodes: string[],
+  selectedLanguages: string[] = []
 ): Country[] => {
   let filteredCountries = filterCountriesByName(countries, searchTerm);
   filteredCountries = filterCountriesByContinents(filteredCountries, selectedContinentCodes);
+  filteredCountries = filterCountriesByLanguages(filteredCountries, selectedLanguages);
   
   return filteredCountries;
 }; 

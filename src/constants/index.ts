@@ -1,5 +1,5 @@
 export const APP_TITLE = '🌍 Countries Explorer';
-export const SEARCH_PLACEHOLDER = 'Search countries...';
+export const SEARCH_PLACEHOLDER = 'Search by country name...';
 export const LOADING_MESSAGE = 'Loading countries...';
 export const NO_RESULTS_MESSAGE = 'No countries found matching your search criteria.';
 export const ERROR_PREFIX = 'Error: ';

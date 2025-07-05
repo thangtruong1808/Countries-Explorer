@@ -10,6 +10,8 @@ export const GET_COUNTRIES = gql`
       currency
       languages {
         name
+        native
+        rtl
       }
       phone
       continent {
@@ -20,6 +22,28 @@ export const GET_COUNTRIES = gql`
     continents {
       code
       name
+    }
+  }
+`;
+
+// Introspection query to explore available fields
+export const GET_COUNTRY_SCHEMA = gql`
+  query IntrospectionQuery {
+    __schema {
+      types {
+        name
+        fields {
+          name
+          type {
+            name
+            kind
+            ofType {
+              name
+              kind
+            }
+          }
+        }
+      }
     }
   }
 `;

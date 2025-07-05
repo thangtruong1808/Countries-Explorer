@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, Container, Typography, Link, Divider } from '@mui/material';
 import { GitHub as GitHubIcon, Language as LanguageIcon } from '@mui/icons-material';
+import { BACKGROUND_COLORS, BORDER_COLORS, TEXT_COLORS } from '../utils/colorUtils';
+import { BORDER } from '../utils/styleUtils';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -9,9 +11,9 @@ export const Footer: React.FC = () => {
     <Box
       component="footer"
       sx={{
-        bgcolor: 'background.paper',
-        borderTop: 1,
-        borderColor: 'divider',
+        bgcolor: BACKGROUND_COLORS.PAPER,
+        borderTop: BORDER.SOLID_1,
+        borderColor: BORDER_COLORS.DIVIDER,
         mt: 'auto',
         py: 4
       }}

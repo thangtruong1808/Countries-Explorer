@@ -1,6 +1,8 @@
 import React from 'react';
 import { IconButton, Tooltip, Box } from '@mui/material';
 import { LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
+import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
+import { BORDER, BOX_SHADOWS } from '../utils/styleUtils';
 
 interface ThemeToggleProps {
   isDarkMode: boolean;
@@ -14,13 +16,13 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isDarkMode, onToggle }
         <IconButton
           onClick={onToggle}
           sx={{
-            bgcolor: 'background.paper',
-            border: 1,
-            borderColor: 'divider',
+            bgcolor: BACKGROUND_COLORS.PAPER,
+            border: BORDER.SOLID_1,
+            borderColor: BORDER_COLORS.DIVIDER,
             '&:hover': {
-              bgcolor: 'action.hover',
+              bgcolor: BACKGROUND_COLORS.HOVER,
             },
-            boxShadow: 2,
+            boxShadow: BOX_SHADOWS.MATERIAL_2,
           }}
           aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >

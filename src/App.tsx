@@ -3,15 +3,18 @@ import { Container, Box, Typography, Paper, Divider } from '@mui/material';
 import { useCountries } from './hooks/useCountries';
 import {
   SearchBar,
-  ContinentFilter,
   CountryGrid,
   LoadingSpinner,
   ErrorMessage,
   Footer,
-  ThemeToggle
+  ThemeToggle,
+  CountryDetail,
+  SideNav
 } from './components';
 import { applyFilters } from './utils';
 import { APP_TITLE } from './constants';
+import { getFilterSummary } from './utils/messageUtils';
+import type { Country } from './types';
 
 interface AppProps {
   isDarkMode: boolean;
@@ -22,6 +25,9 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
   const { countries, continents, loading, error } = useCountries();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedContinents, setSelectedContinents] = useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
 
   // Toggle continent selection (add/remove from array)
   const handleContinentToggle = (code: string) => {
@@ -32,10 +38,38 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
     );
   };
 
-  // Apply search and continent filters with memoization
+  // Toggle language selection (add/remove from array)
+  const handleLanguageToggle = (languageName: string) => {
+    setSelectedLanguages((prev) =>
+      prev.includes(languageName)
+        ? prev.filter((l) => l !== languageName)
+        : [...prev, languageName]
+    );
+  };
+
+  // Handle country card click
+  const handleCountryClick = (country: Country) => {
+    setSelectedCountry(country);
+    setIsDetailOpen(true);
+  };
+
+  // Handle detail modal close
+  const handleDetailClose = () => {
+    setIsDetailOpen(false);
+    setSelectedCountry(null);
+  };
+
+  // Clear all filters
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setSelectedContinents([]);
+    setSelectedLanguages([]);
+  };
+
+  // Apply search, continent, and language filters with memoization
   const filteredCountries = useMemo(() =>
-    applyFilters(countries, searchTerm, selectedContinents),
-    [countries, searchTerm, selectedContinents]
+    applyFilters(countries, searchTerm, selectedContinents, selectedLanguages),
+    [countries, searchTerm, selectedContinents, selectedLanguages]
   );
 
   if (loading) {
@@ -47,43 +81,57 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
   }
 
   return (
-    <Box sx={{
-      minHeight: '100vh',
-      bgcolor: 'background.default',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      {/* Theme Toggle */}
-      <ThemeToggle isDarkMode={isDarkMode} onToggle={onToggleTheme} />
-
-      {/* Header Section */}
-      <Box sx={{
-        bgcolor: 'background.paper',
-        borderBottom: 1,
-        borderColor: 'divider',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000
-      }}>
-        <Container maxWidth="xl" sx={{ py: 3 }}>
-          <Typography
-            variant="h4"
-            component="h1"
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Header */}
+      <Box
+        component="header"
+        sx={{
+          bgcolor: 'background.paper',
+          borderBottom: 1,
+          borderColor: 'divider',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000,
+        }}
+      >
+        <Container maxWidth="xl">
+          <Box
             sx={{
-              fontWeight: 700,
-              color: 'primary.main',
-              textAlign: 'center'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              py: 2,
             }}
           >
-            {APP_TITLE}
-          </Typography>
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: 700,
+                color: 'primary.main',
+                fontSize: { xs: '1.5rem', sm: '2rem' },
+              }}
+            >
+              {APP_TITLE}
+            </Typography>
+            <ThemeToggle isDarkMode={isDarkMode} onToggle={onToggleTheme} />
+          </Box>
         </Container>
       </Box>
+
+      {/* Side Navigation */}
+      <SideNav
+        continents={continents}
+        countries={countries}
+        selectedContinents={selectedContinents}
+        selectedLanguages={selectedLanguages}
+        onContinentToggle={handleContinentToggle}
+        onLanguageToggle={handleLanguageToggle}
+      />
 
       {/* Main Content */}
       <Box sx={{ flex: 1 }}>
         <Container maxWidth="xl" sx={{ py: 4 }}>
-          {/* Search and Filters Section */}
+          {/* Search Section */}
           <Paper
             elevation={0}
             sx={{
@@ -108,7 +156,7 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
             </Typography>
 
             {/* Search Bar */}
-            <Box sx={{ mb: 4 }}>
+            <Box sx={{ mb: 2 }}>
               <Typography
                 variant="body2"
                 sx={{
@@ -126,14 +174,20 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
               />
             </Box>
 
-            <Divider sx={{ my: 3 }} />
-
-            {/* Continent Filters */}
-            <ContinentFilter
-              continents={continents}
-              selectedContinents={selectedContinents}
-              onContinentToggle={handleContinentToggle}
-            />
+            {/* Filter Status */}
+            {(selectedContinents.length > 0 || selectedLanguages.length > 0) && (
+              <Box sx={{ mt: 3 }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: 'text.secondary',
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  {getFilterSummary(selectedContinents, selectedLanguages, continents)}
+                </Typography>
+              </Box>
+            )}
           </Paper>
 
           {/* Results Section */}
@@ -165,13 +219,28 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
               </Typography>
             </Box>
 
-            <CountryGrid countries={filteredCountries} />
+            <CountryGrid
+              countries={filteredCountries}
+              onCountryClick={handleCountryClick}
+              searchTerm={searchTerm}
+              selectedContinents={selectedContinents}
+              selectedLanguages={selectedLanguages}
+              continents={continents}
+              onClearFilters={handleClearFilters}
+            />
           </Box>
         </Container>
       </Box>
 
       {/* Footer */}
       <Footer />
+
+      {/* Country Detail Modal */}
+      <CountryDetail
+        country={selectedCountry}
+        open={isDetailOpen}
+        onClose={handleDetailClose}
+      />
     </Box>
   );
 };

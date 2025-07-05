@@ -5,6 +5,8 @@ export interface Continent {
 
 export interface Language {
   name: string;
+  native: string;
+  rtl: boolean;
 }
 
 export interface Country {

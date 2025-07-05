@@ -1,7 +1,9 @@
 import React from 'react';
 import { TextField, Box, InputAdornment, IconButton } from '@mui/material';
-import { Clear as ClearIcon } from '@mui/icons-material';
+import { Clear as ClearIcon, Search as SearchIcon } from '@mui/icons-material';
 import { SEARCH_PLACEHOLDER } from '../constants';
+import { BORDER_RADIUS } from '../utils/styleConstants';
+import { ICON_STYLES, ICON_BUTTON_STYLES } from '../utils/iconStyles';
 
 interface SearchBarProps {
   searchTerm: string;
@@ -27,6 +29,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange
         onChange={handleChange}
         size="medium"
         InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={ICON_STYLES.SECONDARY} />
+            </InputAdornment>
+          ),
           endAdornment: searchTerm && (
             <InputAdornment position="end">
               <IconButton
@@ -34,11 +41,24 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange
                 edge="end"
                 size="small"
                 aria-label="clear search"
+                sx={ICON_BUTTON_STYLES.CLEAR}
               >
                 <ClearIcon />
               </IconButton>
             </InputAdornment>
           ),
+        }}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            borderRadius: BORDER_RADIUS.SMALL,
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'primary.main',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'primary.main',
+              borderWidth: 2,
+            },
+          },
         }}
       />
     </Box>
