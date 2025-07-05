@@ -4,8 +4,9 @@ import React from 'react';
 import type { Continent, Country } from '../types';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
 import { getFilterSuggestions, getNoResultsMessage } from '../utils/messageUtils';
-import { BORDER, BORDER_RADIUS, SPACING } from '../utils/styleUtils';
-import { FONT_WEIGHTS } from '../utils/typographyUtils';
+import { BORDER, BORDER_RADIUS, SPACING, BADGE_STYLES, BUTTON_STYLES } from '../utils/styleUtils';
+import { FONT_WEIGHTS, FONT_SIZES } from '../utils/typographyUtils';
+import { RESPONSIVE_LAYOUT } from '../utils/layoutUtils';
 import { CountryCard } from './CountryCard';
 
 interface CountryGridProps {
@@ -42,15 +43,15 @@ export const CountryGrid: React.FC<CountryGridProps> = ({
     return (
       <Box
         sx={{
-          textAlign: 'center',
+          ...RESPONSIVE_LAYOUT.TEXT_CENTER,
           py: 8,
           color: 'text.secondary'
         }}
       >
-        <Typography variant="h6" sx={{ mb: 2, fontSize: '1.25rem', fontWeight: FONT_WEIGHTS.SEMIBOLD }}>
+        <Typography variant="h6" sx={{ mb: 2, fontSize: FONT_SIZES.XL, fontWeight: FONT_WEIGHTS.SEMIBOLD }}>
           No countries found
         </Typography>
-        <Typography variant="body1" sx={{ mb: 3, fontSize: '1rem', maxWidth: 600, mx: 'auto' }}>
+        <Typography variant="body1" sx={{ mb: 3, fontSize: FONT_SIZES.MD, maxWidth: 600, mx: 'auto' }}>
           {noResultsMessage}
         </Typography>
 
@@ -68,7 +69,7 @@ export const CountryGrid: React.FC<CountryGridProps> = ({
             <Typography variant="body2" sx={{ mb: 2, fontWeight: FONT_WEIGHTS.MEDIUM }}>
               Suggestions:
             </Typography>
-            <Box component="ul" sx={{ m: 0, pl: 2, textAlign: 'left' }}>
+            <Box component="ul" sx={{ m: 0, pl: 2, ...RESPONSIVE_LAYOUT.TEXT_LEFT }}>
               {suggestions.map((suggestion, index) => (
                 <Typography key={index} component="li" variant="body2" sx={{ mb: 1 }}>
                   {suggestion}
@@ -83,11 +84,7 @@ export const CountryGrid: React.FC<CountryGridProps> = ({
             variant="outlined"
             startIcon={<RefreshIcon />}
             onClick={onClearFilters}
-            sx={{
-              borderRadius: BORDER_RADIUS.MEDIUM,
-              textTransform: 'none',
-              fontWeight: FONT_WEIGHTS.MEDIUM,
-            }}
+            sx={BUTTON_STYLES.OUTLINED}
           >
             Clear All Filters
           </Button>

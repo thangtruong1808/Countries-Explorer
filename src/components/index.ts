@@ -11,4 +11,7 @@ export { Footer } from './Footer';
 export { ThemeToggle } from './ThemeToggle';
 export { SideNav } from './SideNav';
 export { MultipleLanguagesInfo } from './MultipleLanguagesInfo';
-export { LoadMoreButton } from './LoadMoreButton'; 
+export { LoadMoreButton } from './LoadMoreButton';
+export { NavBar } from './NavBar';
+export { ContinentDashboard } from './ContinentDashboard';
+export { DataVisualization } from './DataVisualization'; 

@@ -6,9 +6,8 @@ import { APP_TITLE } from './constants';
 import { CountryDetailPage } from './pages/CountryDetailPage';
 import { HomePage } from './pages/HomePage';
 import { LAYOUT_STYLES } from './utils/layoutUtils';
-import { FONT_WEIGHTS } from './utils/typographyUtils';
-import { TRANSITIONS, TRANSFORMS } from './utils/styleUtils';
 import { createTitleClickHandler, NAVIGATION_STYLES } from './utils/navigationUtils';
+import { FONT_WEIGHTS } from './utils/typographyUtils';
 
 interface AppProps {
   isDarkMode: boolean;

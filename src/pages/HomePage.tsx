@@ -9,15 +9,27 @@ import {
   CountryDetail,
   SideNav,
   MultipleLanguagesInfo,
-  LoadMoreButton
+  LoadMoreButton,
+  NavBar,
+  ContinentDashboard,
+  DataVisualization
 } from '../components';
 import { applyFilters, getCountriesWithMultipleLanguages } from '../utils';
 import { usePaginationStore } from '../store/paginationStore';
 
 import { getFilterSummary } from '../utils/messageUtils';
+import { RESPONSIVE_LAYOUT } from '../utils/layoutUtils';
 import type { Country } from '../types';
+import { BORDER, BORDER_RADIUS, SPACING, BADGE_STYLES } from '../utils/styleUtils';
+import { FONT_SIZES, FONT_WEIGHTS, RESPONSIVE_FONT_SIZES } from '../utils/typographyUtils';
 
 export const HomePage: React.FC = () => {
+  // Tab navigation state
+  const [currentTab, setCurrentTab] = useState<string>('home');
+
+  // SideNav state
+  const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
+
   // Pagination store
   const {
     itemsPerLoad,
@@ -39,6 +51,11 @@ export const HomePage: React.FC = () => {
   const [selectedCurrencies, setSelectedCurrencies] = useState<string[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState<boolean>(false);
+
+  // Handle menu toggle
+  const handleMenuToggle = () => {
+    setIsSideNavOpen(!isSideNavOpen);
+  };
 
   // Toggle continent selection (add/remove from array)
   const handleContinentToggle = (code: string) => {
@@ -133,176 +150,188 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {/* Side Navigation */}
-      <SideNav
-        continents={continents}
-        countries={countries}
-        selectedContinents={selectedContinents}
-        selectedLanguages={selectedLanguages}
-        selectedCurrencies={selectedCurrencies}
-        onContinentToggle={handleContinentToggle}
-        onLanguageToggle={handleLanguageToggle}
-        onCurrencyToggle={handleCurrencyToggle}
-        onResetFilters={handleClearFilters}
+    <Box sx={RESPONSIVE_LAYOUT.FULL_HEIGHT_CONTAINER}>
+      {/* Navigation Bar */}
+      <NavBar
+        currentTab={currentTab}
+        onTabChange={setCurrentTab}
+        onMenuToggle={handleMenuToggle}
+        showMenuButton={currentTab === 'home'}
       />
 
+      {/* Side Navigation - Only show on Home tab */}
+      {currentTab === 'home' && (
+        <SideNav
+          continents={continents}
+          countries={countries}
+          selectedContinents={selectedContinents}
+          selectedLanguages={selectedLanguages}
+          selectedCurrencies={selectedCurrencies}
+          onContinentToggle={handleContinentToggle}
+          onLanguageToggle={handleLanguageToggle}
+          onCurrencyToggle={handleCurrencyToggle}
+          onResetFilters={handleClearFilters}
+          isOpen={isSideNavOpen}
+          onClose={() => setIsSideNavOpen(false)}
+        />
+      )}
+
       {/* Main Content */}
-      <Box sx={{ flex: 1 }}>
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-          {/* Search Section */}
-          <Paper
-            elevation={0}
-            sx={{
-              p: 4,
-              mb: 4,
-              borderRadius: 3,
-              border: 1,
-              borderColor: 'divider',
-              bgcolor: 'background.paper'
-            }}
-          >
-            <Typography
-              variant="h6"
+      <Box sx={RESPONSIVE_LAYOUT.FLEX_GROW_CONTAINER}>
+        {currentTab === 'home' && (
+          <Container maxWidth="xl" sx={{ py: 4 }}>
+            {/* Search Section */}
+            <Paper
+              elevation={0}
               sx={{
-                mb: 3,
-                fontWeight: 600,
-                color: 'text.primary',
-                fontSize: '1.375rem'
+                p: 4,
+                mb: 4,
+                borderRadius: 3,
+                border: 1,
+                borderColor: 'divider',
+                bgcolor: 'background.paper'
               }}
             >
-              Discover Countries
-            </Typography>
-
-            {/* Search Bar */}
-            <Box sx={{ mb: 2 }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  mb: 1.5,
-                  color: 'text.secondary',
-                  fontWeight: 500,
-                  fontSize: '0.95rem'
-                }}
-              >
-                Search by country name
-              </Typography>
-              <SearchBar
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-              />
-            </Box>
-
-            {/* Filter Status */}
-            {(selectedContinents.length > 0 || selectedLanguages.length > 0 || selectedCurrencies.length > 0) && (
-              <Box sx={{ mt: 3 }}>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: 'text.secondary',
-                    fontSize: '0.9rem'
-                  }}
-                >
-                  {getFilterSummary(selectedContinents, selectedLanguages, continents, selectedCurrencies)}
-                </Typography>
-              </Box>
-            )}
-
-            {/* Multiple Languages Info */}
-            <MultipleLanguagesInfo
-              countriesWithMultipleLanguages={countriesWithMultipleLanguages}
-              selectedLanguages={selectedLanguages}
-            />
-          </Paper>
-
-          {/* Results Section */}
-          <Box>
-            <Box sx={{
-              mb: 3,
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              alignItems: { xs: 'flex-start', sm: 'center' },
-              justifyContent: 'space-between',
-              gap: { xs: 2, sm: 0 }
-            }}>
               <Typography
                 variant="h6"
                 sx={{
+                  mb: 3,
                   fontWeight: 600,
                   color: 'text.primary',
-                  fontSize: { xs: '1.25rem', sm: '1.375rem' }
+                  fontSize: '1.375rem'
                 }}
               >
-                Countries
+                Discover Countries
               </Typography>
-              <Box sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: { xs: 'flex-start', sm: 'center' },
-                gap: { xs: 1, sm: 2 },
-                width: { xs: '100%', sm: 'auto' }
-              }}>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    bgcolor: 'primary.light',
-                    color: 'primary.contrastText',
-                    px: 2,
-                    py: 0.5,
-                    borderRadius: 2,
-                    fontWeight: 600,
-                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
-                    textAlign: { xs: 'center', sm: 'left' },
-                    width: { xs: 'fit-content', sm: 'auto' }
-                  }}
-                >
-                  {allFilteredCountries.length} {allFilteredCountries.length === 1 ? 'country' : 'countries'} total
-                </Typography>
-                {allFilteredCountries.length > filteredCountries.length && (
+
+              {/* Search Bar */}
+              <Box sx={RESPONSIVE_LAYOUT.MARGIN_BOTTOM_SM}>
+                <SearchBar
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                />
+              </Box>
+
+              {/* Filter Status */}
+              {(selectedContinents.length > 0 || selectedLanguages.length > 0 || selectedCurrencies.length > 0) && (
+                <Box sx={RESPONSIVE_LAYOUT.MARGIN_TOP_MD}>
                   <Typography
                     variant="body2"
                     sx={{
-                      bgcolor: 'background.paper',
                       color: 'text.secondary',
-                      px: 2,
-                      py: 0.5,
-                      borderRadius: 2,
-                      fontWeight: 500,
-                      fontSize: { xs: '0.8rem', sm: '0.85rem' },
-                      border: 1,
-                      borderColor: 'divider',
+                      fontSize: '0.9rem'
+                    }}
+                  >
+                    {getFilterSummary(selectedContinents, selectedLanguages, continents, selectedCurrencies)}
+                  </Typography>
+                </Box>
+              )}
+
+              {/* Multiple Languages Info */}
+              <MultipleLanguagesInfo
+                countriesWithMultipleLanguages={countriesWithMultipleLanguages}
+                selectedLanguages={selectedLanguages}
+              />
+            </Paper>
+
+            {/* Results Section */}
+            <Box>
+              <Box sx={{
+                mb: 3,
+                ...RESPONSIVE_LAYOUT.RESPONSIVE_FLEX,
+                alignItems: { xs: 'flex-start', sm: 'center' },
+                justifyContent: 'space-between',
+                ...RESPONSIVE_LAYOUT.RESPONSIVE_GAP
+              }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 600,
+                    color: 'text.primary',
+                    fontSize: { xs: '1.25rem', sm: '1.375rem' }
+                  }}
+                >
+                  Countries
+                </Typography>
+                <Box sx={{
+                  ...RESPONSIVE_LAYOUT.RESPONSIVE_FLEX,
+                  alignItems: { xs: 'flex-start', sm: 'center' },
+                  gap: { xs: 1, sm: 2 },
+                  width: { xs: '100%', sm: 'auto' }
+                }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      ...BADGE_STYLES.PRIMARY,
+                      fontSize: RESPONSIVE_FONT_SIZES.SMALL_MEDIUM,
                       textAlign: { xs: 'center', sm: 'left' },
                       width: { xs: 'fit-content', sm: 'auto' }
                     }}
                   >
-                    Showing {filteredCountries.length} of {allFilteredCountries.length}
+                    {allFilteredCountries.length} {allFilteredCountries.length === 1 ? 'country' : 'countries'} total
                   </Typography>
-                )}
+                  {allFilteredCountries.length > filteredCountries.length && (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        bgcolor: 'background.paper',
+                        color: 'text.secondary',
+                        px: 2,
+                        py: 0.5,
+                        borderRadius: 2,
+                        fontWeight: 500,
+                        fontSize: { xs: '0.8rem', sm: '0.85rem' },
+                        border: 1,
+                        borderColor: 'divider',
+                        textAlign: { xs: 'center', sm: 'left' },
+                        width: { xs: 'fit-content', sm: 'auto' }
+                      }}
+                    >
+                      Showing {filteredCountries.length} of {allFilteredCountries.length}
+                    </Typography>
+                  )}
+                </Box>
               </Box>
-            </Box>
 
-            <CountryGrid
-              countries={filteredCountries}
-              onCountryClick={handleCountryClick}
-              searchTerm={searchTerm}
-              selectedContinents={selectedContinents}
-              selectedLanguages={selectedLanguages}
-              continents={continents}
-              onClearFilters={handleClearFilters}
-            />
-
-            {/* Load More Button */}
-            {allFilteredCountries.length > 0 && (
-              <LoadMoreButton
-                onLoadMore={handleLoadMore}
-                isLoading={paginationLoading}
-                hasMore={hasMore && filteredCountries.length < allFilteredCountries.length}
-                totalLoaded={filteredCountries.length}
-                totalAvailable={allFilteredCountries.length}
+              <CountryGrid
+                countries={filteredCountries}
+                onCountryClick={handleCountryClick}
+                searchTerm={searchTerm}
+                selectedContinents={selectedContinents}
+                selectedLanguages={selectedLanguages}
+                continents={continents}
+                onClearFilters={handleClearFilters}
               />
-            )}
-          </Box>
-        </Container>
+
+              {/* Load More Button */}
+              {allFilteredCountries.length > 0 && (
+                <LoadMoreButton
+                  onLoadMore={handleLoadMore}
+                  isLoading={paginationLoading}
+                  hasMore={hasMore && filteredCountries.length < allFilteredCountries.length}
+                  totalLoaded={filteredCountries.length}
+                  totalAvailable={allFilteredCountries.length}
+                />
+              )}
+            </Box>
+          </Container>
+        )}
+
+        {/* Continent Dashboard Tab */}
+        {currentTab === 'dashboard' && (
+          <ContinentDashboard
+            countries={countries}
+            continents={continents}
+          />
+        )}
+
+        {/* Data Visualization Tab */}
+        {currentTab === 'charts' && (
+          <DataVisualization
+            countries={countries}
+            continents={continents}
+          />
+        )}
       </Box>
 
       {/* Country Detail Modal */}

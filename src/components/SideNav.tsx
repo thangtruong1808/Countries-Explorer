@@ -11,7 +11,6 @@ import {
   Divider
 } from '@mui/material';
 import {
-  Menu as MenuIcon,
   Close as CloseIcon,
   FilterList as FilterIcon,
   Refresh as RefreshIcon
@@ -33,6 +32,7 @@ import {
 } from '../utils/filterUtils';
 import { FONT_WEIGHTS } from '../utils/typographyUtils';
 import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
+import { RESPONSIVE_POSITION_STYLES } from '../utils/responsivePositionUtils';
 
 interface SideNavProps {
   continents: Continent[];
@@ -44,6 +44,8 @@ interface SideNavProps {
   onLanguageToggle: (languageName: string) => void;
   onCurrencyToggle: (currency: string) => void;
   onResetFilters?: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 export const SideNav: React.FC<SideNavProps> = ({
@@ -55,9 +57,10 @@ export const SideNav: React.FC<SideNavProps> = ({
   onContinentToggle,
   onLanguageToggle,
   onCurrencyToggle,
-  onResetFilters
+  onResetFilters,
+  isOpen = false,
+  onClose
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -83,12 +86,10 @@ export const SideNav: React.FC<SideNavProps> = ({
   // Check if any filters are active
   const hasActiveFiltersState = hasActiveFilters(selectedContinents, selectedLanguages, selectedCurrencies);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
   const handleClose = () => {
-    setIsOpen(false);
+    if (onClose) {
+      onClose();
+    }
   };
 
   const handleResetFilters = () => {
@@ -98,9 +99,9 @@ export const SideNav: React.FC<SideNavProps> = ({
   };
 
   // Use the click outside hook
-  useClickOutside(drawerRef, isOpen, handleClose, ['[data-side-nav-toggle]']);
+  useClickOutside(drawerRef, isOpen, handleClose, ['[data-navbar-menu]']);
 
-  const drawerWidth = 340; // Reduced from 380 for more compact layout
+  const drawerWidth = RESPONSIVE_POSITION_STYLES.RESPONSIVE_DRAWER.width; // Responsive width
 
   const drawerContent = (
     <Box
@@ -227,29 +228,6 @@ export const SideNav: React.FC<SideNavProps> = ({
 
   return (
     <>
-      {/* Toggle Button */}
-      <IconButton
-        onClick={handleToggle}
-        data-side-nav-toggle
-        sx={{
-          position: 'fixed',
-          top: 100,
-          left: 20,
-          zIndex: Z_INDEX.DRAWER,
-          bgcolor: 'background.paper',
-          border: 1,
-          borderColor: 'divider',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-          '&:hover': {
-            bgcolor: 'background.paper',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
-          },
-        }}
-        aria-label="Open filters"
-      >
-        <MenuIcon />
-      </IconButton>
-
       {/* Drawer */}
       <Drawer
         variant={isMobile ? 'temporary' : 'persistent'}

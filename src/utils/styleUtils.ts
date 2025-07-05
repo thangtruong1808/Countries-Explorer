@@ -1,3 +1,5 @@
+import { FONT_WEIGHTS } from './typographyUtils';
+
 /**
  * Common style utilities used across the application
  */
@@ -79,4 +81,100 @@ export const BORDER = {
   SOLID_3: '3px solid',
   DASHED_1: '1px dashed',
   DOTTED_1: '1px dotted',
+} as const;
+
+/**
+ * Common badge and chip styling patterns
+ */
+export const BADGE_STYLES = {
+  // Primary badge styling
+  PRIMARY: {
+    bgcolor: 'primary.light',
+    color: 'primary.contrastText',
+    px: 2,
+    py: 0.5,
+    borderRadius: 2,
+    fontWeight: 600,
+  },
+  
+  // Secondary badge styling
+  SECONDARY: {
+    bgcolor: 'background.paper',
+    color: 'text.secondary',
+    px: 2,
+    py: 0.5,
+    borderRadius: 2,
+    fontWeight: 500,
+    border: 1,
+    borderColor: 'divider',
+  },
+  
+  // Small badge styling
+  SMALL: {
+    px: 1.5,
+    py: 0.25,
+    borderRadius: 1,
+    fontSize: '0.75rem',
+  },
+  
+  // Large badge styling
+  LARGE: {
+    px: 3,
+    py: 1,
+    borderRadius: 3,
+    fontSize: '1rem',
+  },
+} as const;
+
+/**
+ * Common button styling patterns
+ */
+export const BUTTON_STYLES = {
+  // Outlined button styling
+  OUTLINED: {
+    borderRadius: BORDER_RADIUS.MEDIUM,
+    textTransform: 'none',
+    fontWeight: FONT_WEIGHTS.MEDIUM,
+  },
+  
+  // Primary button styling
+  PRIMARY: {
+    borderRadius: BORDER_RADIUS.MEDIUM,
+    textTransform: 'none',
+    fontWeight: FONT_WEIGHTS.SEMIBOLD,
+    px: 3,
+    py: 1.5,
+  },
+} as const;
+
+/**
+ * Common icon styling patterns
+ */
+export const ICON_STYLES = {
+  // Primary icon styling
+  PRIMARY: {
+    color: 'primary.main',
+    fontSize: 20,
+  },
+  
+  // Secondary icon styling
+  SECONDARY: {
+    color: 'text.secondary',
+    fontSize: 18,
+  },
+  
+  // Small icon styling
+  SMALL: {
+    fontSize: 16,
+  },
+  
+  // Large icon styling
+  LARGE: {
+    fontSize: 24,
+  },
+  
+  // Extra large icon styling
+  XLARGE: {
+    fontSize: 32,
+  },
 } as const; 

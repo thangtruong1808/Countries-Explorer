@@ -27,7 +27,7 @@ import type { Country } from '../types';
 import { getCountryDescription } from '../utils/countryDescription';
 import { getFlagUrl } from '../utils/flagUtils';
 import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { BORDER_RADIUS, SPACING, TRANSITIONS, TRANSFORMS } from '../utils/styleUtils';
+import { BORDER, BORDER_RADIUS, SPACING, ICON_STYLES } from '../utils/styleUtils';
 
 interface CountryDetailProps {
   country: Country | null;
@@ -186,7 +186,7 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <InfoIcon sx={{ color: 'primary.main', fontSize: 20 }} />
+                <InfoIcon sx={ICON_STYLES.PRIMARY} />
                 <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary' }}>
                   About {country.name}
                 </Typography>
@@ -234,7 +234,7 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
               <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 3 }}>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                    <LocationIcon sx={{ color: 'primary.main', fontSize: 20 }} />
+                    <LocationIcon sx={ICON_STYLES.PRIMARY} />
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
                       Capital:
                     </Typography>
@@ -245,7 +245,7 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
                 </Box>
                 <Box sx={{ flex: 1 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                    <FlagIcon sx={{ color: 'primary.main', fontSize: 20 }} />
+                    <FlagIcon sx={ICON_STYLES.PRIMARY} />
                     <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500 }}>
                       Country Code:
                     </Typography>
