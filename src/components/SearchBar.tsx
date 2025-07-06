@@ -27,11 +27,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange
         placeholder={SEARCH_PLACEHOLDER}
         value={searchTerm}
         onChange={handleChange}
-        size="medium"
+        size="small"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={ICON_STYLES.SECONDARY} />
+              <SearchIcon sx={{ ...ICON_STYLES.SECONDARY, fontSize: 20 }} />
             </InputAdornment>
           ),
           endAdornment: searchTerm && (
@@ -41,9 +41,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange
                 edge="end"
                 size="small"
                 aria-label="clear search"
-                sx={ICON_BUTTON_STYLES.CLEAR}
+                sx={{ ...ICON_BUTTON_STYLES.CLEAR, padding: 0.5 }}
               >
-                <ClearIcon />
+                <ClearIcon sx={{ fontSize: 18 }} />
               </IconButton>
             </InputAdornment>
           ),
@@ -51,6 +51,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange
         sx={{
           '& .MuiOutlinedInput-root': {
             borderRadius: BORDER_RADIUS.SMALL,
+            height: 40,
             '&:hover .MuiOutlinedInput-notchedOutline': {
               borderColor: 'primary.main',
             },
@@ -58,6 +59,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, onSearchChange
               borderColor: 'primary.main',
               borderWidth: 2,
             },
+          },
+          '& .MuiInputBase-input': {
+            padding: '8px 12px',
+            fontSize: '0.9rem',
           },
         }}
       />

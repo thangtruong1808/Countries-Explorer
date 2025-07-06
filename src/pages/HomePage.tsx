@@ -241,13 +241,13 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
       {/* Main Content */}
       <Box sx={RESPONSIVE_LAYOUT.FLEX_GROW_CONTAINER}>
         {(currentTab === 'home' || currentTab === 'filters') && (
-          <Container maxWidth="xl" sx={{ py: 4 }}>
+          <Container maxWidth="xl" sx={{ py: 3 }}>
             {/* Search Section */}
             <Paper
               elevation={0}
               sx={{
-                p: 4,
-                mb: 4,
+                p: 2,
+                mb: 2,
                 borderRadius: 3,
                 border: 1,
                 borderColor: 'divider',
@@ -257,10 +257,10 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
               <Typography
                 variant="h6"
                 sx={{
-                  mb: 3,
+                  mb: 2,
                   fontWeight: 600,
                   color: 'text.primary',
-                  fontSize: '1.375rem'
+                  fontSize: '1.25rem'
                 }}
               >
                 Discover Countries
@@ -299,7 +299,7 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
             {/* Results Section */}
             <Box>
               <Box sx={{
-                mb: 3,
+                mb: 2,
                 ...RESPONSIVE_LAYOUT.RESPONSIVE_FLEX,
                 alignItems: { xs: 'flex-start', sm: 'center' },
                 justifyContent: 'space-between',
@@ -310,7 +310,7 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
                   sx={{
                     fontWeight: 600,
                     color: 'text.primary',
-                    fontSize: { xs: '1.25rem', sm: '1.375rem' }
+                    fontSize: { xs: '1.125rem', sm: '1.25rem' }
                   }}
                 >
                   Countries
