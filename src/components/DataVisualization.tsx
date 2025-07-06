@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardContent, Typography, Paper, Fade, Grow } from '@mui/material';
+import { Box, Card, CardContent, Typography, Paper, Fade, Grow, Chip } from '@mui/material';
 import { Pie, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -62,6 +62,14 @@ export const DataVisualization: React.FC<DataVisualizationProps> = ({
     getContinentChartData(continentStats),
     [continentStats]
   );
+
+  // Calculate total unique languages across all countries
+  const totalUniqueLanguages = React.useMemo(() => {
+    const allLanguages = countries.flatMap(country =>
+      country.languages?.map(lang => lang.name) || []
+    );
+    return new Set(allLanguages).size;
+  }, [countries]);
 
   // Pie chart data for language distribution
   const pieChartData = {
@@ -536,25 +544,37 @@ export const DataVisualization: React.FC<DataVisualizationProps> = ({
                 fontSize: '0.8rem',
                 color: 'text.primary'
               }}>
-                Total Languages
+                Top popular languages used across all countries
               </Typography>
             </Box>
-            <Typography variant="h5" sx={{
-              color: 'success.main',
-              fontWeight: FONT_WEIGHTS.BOLD,
-              mb: 0.5,
-              background: 'linear-gradient(135deg, #4caf50 0%, #66bb6a 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent'
-            }}>
-              {languageDistribution.length}
-            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
+              {languageDistribution.slice(0, 10).map((lang, index) => (
+                <Chip
+                  key={index}
+                  label={lang.language}
+                  size="small"
+                  sx={{
+                    fontSize: '0.6rem',
+                    height: 18,
+                    background: 'linear-gradient(135deg, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0.05) 100%)',
+                    color: 'success.main',
+                    fontWeight: FONT_WEIGHTS.MEDIUM,
+                    border: '1px solid',
+                    borderColor: 'success.main',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      background: 'linear-gradient(135deg, rgba(76,175,80,0.2) 0%, rgba(76,175,80,0.1) 100%)',
+                      transform: 'scale(1.05)'
+                    }
+                  }}
+                />
+              ))}
+            </Box>
             <Typography variant="caption" sx={{
               color: 'text.secondary',
               fontSize: '0.7rem'
             }}>
-              Unique languages
+              {totalUniqueLanguages} total unique languages
             </Typography>
           </Paper>
         </Fade>

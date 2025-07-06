@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-  Box,
-  Chip,
-  IconButton,
-  Paper,
-  Skeleton
-} from '@mui/material';
 import {
   Close as CloseIcon,
-  LocationOn as LocationIcon,
-  Language as LanguageIcon,
-  AttachMoney as CurrencyIcon,
-  Phone as PhoneIcon,
   Public as ContinentIcon,
+  AttachMoney as CurrencyIcon,
   Flag as FlagIcon,
-  Info as InfoIcon
+  Info as InfoIcon,
+  Language as LanguageIcon,
+  LocationOn as LocationIcon,
+  Phone as PhoneIcon
 } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Paper,
+  Skeleton,
+  Typography
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { Country } from '../types';
+import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS } from '../utils/colorUtils';
 import { getCountryDescription } from '../utils/countryDescription';
 import { getFlagUrl } from '../utils/flagUtils';
-import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { BORDER, BORDER_RADIUS, SPACING, ICON_STYLES } from '../utils/styleUtils';
+import { BORDER_RADIUS, ICON_STYLES, SPACING } from '../utils/styleUtils';
 
 interface CountryDetailProps {
   country: Country | null;
@@ -126,7 +126,7 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
         </IconButton>
       </DialogTitle>
 
-      <DialogContent sx={{ p: 4 }}>
+      <DialogContent sx={{ p: 4, mt: 2 }}>
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 4 }}>
           {/* Left Section - Flag and Description */}
           <Box sx={{ flex: { lg: '0 0 400px' } }}>
@@ -183,6 +183,7 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
                 border: '1px solid',
                 borderColor: 'divider',
                 background: 'background.default',
+                mb: 3,
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -212,6 +213,54 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
                   {description}
                 </Typography>
               )}
+            </Paper>
+
+            {/* Map Integration */}
+            <Paper
+              elevation={0}
+              sx={{
+                p: 3,
+                borderRadius: 3,
+                border: '1px solid',
+                borderColor: 'divider',
+                background: 'background.default',
+              }}
+            >
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'text.primary' }}>
+                Location Map
+              </Typography>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: 250,
+                  borderRadius: 2,
+                  overflow: 'hidden',
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  position: 'relative',
+                  background: 'background.paper',
+                  '& iframe': {
+                    border: 'none',
+                    width: '100%',
+                    height: '100%',
+                  }
+                }}
+              >
+                <iframe
+                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(country.name)}`}
+                  title={`Map of ${country.name}`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </Box>
+              <Typography variant="caption" sx={{
+                color: 'text.secondary',
+                mt: 1,
+                display: 'block',
+                fontSize: '0.75rem'
+              }}>
+                Interactive map showing the location of {country.name}
+              </Typography>
             </Paper>
           </Box>
 

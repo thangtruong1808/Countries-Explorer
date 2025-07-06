@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
         borderTop: BORDER.SOLID_1,
         borderColor: BORDER_COLORS.DIVIDER,
         mt: 'auto',
-        py: 4
+        py: 2
       }}
     >
       <Container maxWidth="xl">
@@ -31,8 +31,8 @@ export const Footer: React.FC = () => {
           flexDirection: { xs: 'column', md: 'row' },
           justifyContent: 'space-between',
           alignItems: { xs: 'center', md: 'flex-start' },
-          gap: { xs: 4, md: 3 },
-          py: SPACING.LG
+          gap: { xs: 2, md: 2 },
+          py: SPACING.MD
         }}>
           {/* Left Section - App Info */}
           <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
@@ -42,7 +42,7 @@ export const Footer: React.FC = () => {
               sx={{
                 fontWeight: FONT_WEIGHTS.BOLD,
                 color: 'primary.main',
-                mb: SPACING.MD,
+                mb: SPACING.SM,
                 fontSize: { xs: '1.1rem', sm: '1.25rem' },
                 ...NAVIGATION_STYLES.CLICKABLE_TITLE
               }}
@@ -55,7 +55,7 @@ export const Footer: React.FC = () => {
                 color: 'text.secondary',
                 maxWidth: 300,
                 fontSize: FONT_SIZES.SM,
-                lineHeight: 1.6,
+                lineHeight: 1.5,
                 fontWeight: FONT_WEIGHTS.NORMAL
               }}
             >
@@ -69,14 +69,14 @@ export const Footer: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: { xs: 'center', md: 'flex-start' },
-            gap: 1
+            gap: 0.5
           }}>
             <Typography
               variant="subtitle2"
               sx={{
                 fontWeight: FONT_WEIGHTS.SEMIBOLD,
                 color: 'text.primary',
-                mb: SPACING.MD,
+                mb: SPACING.SM,
                 fontSize: { xs: '0.9rem', sm: '0.95rem' }
               }}
             >
@@ -133,14 +133,14 @@ export const Footer: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: { xs: 'center', md: 'flex-end' },
-            gap: 1
+            gap: 0.5
           }}>
             <Typography
               variant="subtitle2"
               sx={{
                 fontWeight: FONT_WEIGHTS.SEMIBOLD,
                 color: 'text.primary',
-                mb: SPACING.MD,
+                mb: SPACING.SM,
                 fontSize: { xs: '0.9rem', sm: '0.95rem' }
               }}
             >
@@ -182,7 +182,7 @@ export const Footer: React.FC = () => {
           </Box>
         </Box>
 
-        <Divider sx={{ my: SPACING.LG }} />
+        <Divider sx={{ my: SPACING.MD }} />
 
         {/* Bottom Section - Copyright */}
         <Box sx={{
@@ -190,21 +190,21 @@ export const Footer: React.FC = () => {
           flexDirection: { xs: 'column', sm: 'row' },
           justifyContent: 'space-between',
           alignItems: 'center',
-          gap: SPACING.MD,
-          py: SPACING.MD
+          gap: SPACING.SM,
+          py: SPACING.SM
         }}>
           <Box sx={{
             display: 'flex',
             alignItems: 'center',
-            gap: SPACING.MD,
+            gap: SPACING.SM,
             flexDirection: { xs: 'column', sm: 'row' }
           }}>
             <Avatar
               src={thangTruongImage}
               alt="Thang Truong"
               sx={{
-                width: 80,
-                height: 80,
+                width: 60,
+                height: 60,
                 border: BORDER.SOLID_2,
                 borderColor: 'primary.main',
                 transition: TRANSITIONS.NORMAL,

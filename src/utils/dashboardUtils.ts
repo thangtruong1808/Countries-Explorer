@@ -33,21 +33,27 @@ export const getContinentStats = (countries: Country[], continents: Continent[])
       country.continent?.code === continent.code
     );
 
-    const languages = continentCountries.flatMap(country => 
+    const allLanguages = continentCountries.flatMap(country => 
       country.languages?.map(lang => lang.name) || []
     );
 
-    const currencies = continentCountries
+    // Get unique languages for display (removing duplicates)
+    const uniqueLanguages = [...new Set(allLanguages)];
+
+    const allCurrencies = continentCountries
       .map(country => country.currency)
       .filter(Boolean) as string[];
+
+    // Get unique currencies for display (removing duplicates)
+    const uniqueCurrencies = [...new Set(allCurrencies)];
 
     stats.push({
       continent,
       countryCount: continentCountries.length,
-      languages,
-      uniqueLanguages: new Set(languages).size,
-      currencies,
-      uniqueCurrencies: new Set(currencies).size,
+      languages: uniqueLanguages, // Store only unique languages
+      uniqueLanguages: uniqueLanguages.length, // Use the length of unique languages
+      currencies: uniqueCurrencies, // Store only unique currencies
+      uniqueCurrencies: uniqueCurrencies.length, // Use the length of unique currencies
     });
   });
 

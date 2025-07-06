@@ -1,13 +1,13 @@
-import React from 'react';
-import { Box, Typography, FormGroup, FormControlLabel, Checkbox, Chip } from '@mui/material';
 import { Language as LanguageIcon } from '@mui/icons-material';
+import { Box, Checkbox, Chip, FormGroup, Typography } from '@mui/material';
+import React from 'react';
 import type { Country } from '../types';
-import { ICON_STYLES } from '../utils/iconStyles';
-import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS, TEXT_COLORS } from '../utils/colorUtils';
-import { BORDER_RADIUS, TRANSITIONS, SPACING, TRANSFORMS, CURSORS, DISPLAY, FLEX, BORDER } from '../utils/styleUtils';
-import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
-import { getAllLanguages } from '../utils/languageUtils';
+import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS, TEXT_COLORS } from '../utils/colorUtils';
 import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
+import { ICON_STYLES } from '../utils/iconStyles';
+import { getAllLanguages } from '../utils/languageUtils';
+import { BORDER, BORDER_RADIUS, CURSORS, DISPLAY, FLEX, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
+import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 
 interface LanguageFilterProps {
   countries: Country[]; // Filtered countries based on other filters

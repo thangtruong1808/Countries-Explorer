@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Container, Box, Typography, Paper } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import { useCountries } from '../hooks/useCountries';
 import {
   SearchBar,
@@ -29,8 +30,14 @@ export interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme }) => {
+  const location = useLocation();
+
   // Tab navigation state
-  const [currentTab, setCurrentTab] = useState<string>('home');
+  const [currentTab, setCurrentTab] = useState<string>(() => {
+    // Check if we have a selected tab from navigation state
+    const selectedTab = location.state?.selectedTab;
+    return selectedTab || 'home';
+  });
 
   // SideNav state - separate from tab state
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(false);
@@ -65,14 +72,17 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
     setSelectedCurrencies([]);
     setSelectedCountry(null);
     setIsDetailOpen(false);
+    setIsSideNavOpen(false);
+    // Force complete pagination reset
     resetPagination();
+    // Force re-render by updating current tab
+    setCurrentTab('home');
   };
 
   // Handle tab change with reset functionality
   const handleTabChange = (tab: string) => {
     if (tab === 'home') {
       resetAllStates();
-      setIsSideNavOpen(false);
     } else if (tab === 'filters') {
       setIsSideNavOpen(true);
     } else {
@@ -143,6 +153,23 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
   React.useEffect(() => {
     resetPagination();
   }, [searchTerm, selectedContinents, selectedLanguages, selectedCurrencies, resetPagination]);
+
+  // Handle SideNav state when tab changes from navigation
+  React.useEffect(() => {
+    if (currentTab === 'filters') {
+      setIsSideNavOpen(true);
+    } else {
+      setIsSideNavOpen(false);
+    }
+  }, [currentTab]);
+
+  // Clear navigation state after using it
+  React.useEffect(() => {
+    if (location.state?.selectedTab) {
+      // Clear the navigation state to prevent it from persisting
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   // Handle load more
   const handleLoadMore = async () => {

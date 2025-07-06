@@ -42,6 +42,10 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
     [countries]
   );
 
+  // State to track expanded languages and currencies for each continent
+  const [expandedLanguages, setExpandedLanguages] = React.useState<Record<string, boolean>>({});
+  const [expandedCurrencies, setExpandedCurrencies] = React.useState<Record<string, boolean>>({});
+
   const totalCountries = countries.length;
   const totalLanguages = new Set(
     countries.flatMap(country =>
@@ -53,6 +57,22 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
   // Calculate percentage for progress bars
   const maxCountries = Math.max(...continentStats.map(stat => stat.countryCount));
   const maxLanguages = Math.max(...continentStats.map(stat => stat.uniqueLanguages));
+
+  // Toggle expanded state for languages
+  const toggleLanguagesExpanded = (continentCode: string) => {
+    setExpandedLanguages(prev => ({
+      ...prev,
+      [continentCode]: !prev[continentCode]
+    }));
+  };
+
+  // Toggle expanded state for currencies
+  const toggleCurrenciesExpanded = (continentCode: string) => {
+    setExpandedCurrencies(prev => ({
+      ...prev,
+      [continentCode]: !prev[continentCode]
+    }));
+  };
 
   return (
     <Box sx={{ p: SPACING.LG }}>
@@ -440,10 +460,19 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
                         }
                       }}
                     />
+                    <Typography variant="caption" sx={{
+                      color: 'text.secondary',
+                      mt: 0.25,
+                      display: 'block',
+                      textAlign: 'center',
+                      fontSize: '0.7rem'
+                    }}>
+                      {((stat.uniqueLanguages / maxLanguages) * 100).toFixed(0)}% of max
+                    </Typography>
                   </Box>
 
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.25 }}>
-                    {stat.languages.slice(0, 3).map((language, langIndex) => (
+                    {(expandedLanguages[stat.continent.code] ? stat.languages : stat.languages.slice(0, 3)).map((language, langIndex) => (
                       <Chip
                         key={langIndex}
                         label={language}
@@ -466,8 +495,9 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
                     ))}
                     {stat.languages.length > 3 && (
                       <Chip
-                        label={`+${stat.languages.length - 3}`}
+                        label={expandedLanguages[stat.continent.code] ? 'Show Less' : `+${stat.languages.length - 3}`}
                         size="small"
+                        onClick={() => toggleLanguagesExpanded(stat.continent.code)}
                         sx={{
                           fontSize: '0.65rem',
                           height: 20,
@@ -475,7 +505,14 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
                           color: 'warning.main',
                           fontWeight: FONT_WEIGHTS.MEDIUM,
                           border: BORDER.SOLID_1,
-                          borderColor: 'warning.main'
+                          borderColor: 'warning.main',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            background: 'linear-gradient(135deg, rgba(255,152,0,0.2) 0%, rgba(255,152,0,0.1) 100%)',
+                            transform: 'scale(1.05)',
+                            boxShadow: '0 2px 8px rgba(255,152,0,0.3)'
+                          }
                         }}
                       />
                     )}
@@ -494,8 +531,34 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
                     </Typography>
                   </Box>
 
+                  {/* Progress bar for currencies */}
+                  <Box sx={{ mb: 1 }}>
+                    <LinearProgress
+                      variant="determinate"
+                      value={(stat.uniqueCurrencies / Math.max(...continentStats.map(s => s.uniqueCurrencies))) * 100}
+                      sx={{
+                        height: 4,
+                        borderRadius: BORDER_RADIUS.SMALL,
+                        background: 'rgba(255,152,0,0.1)',
+                        '& .MuiLinearProgress-bar': {
+                          background: 'linear-gradient(90deg, #ff9800 0%, #ffb74d 100%)',
+                          borderRadius: BORDER_RADIUS.SMALL
+                        }
+                      }}
+                    />
+                    <Typography variant="caption" sx={{
+                      color: 'text.secondary',
+                      mt: 0.25,
+                      display: 'block',
+                      textAlign: 'center',
+                      fontSize: '0.7rem'
+                    }}>
+                      {((stat.uniqueCurrencies / Math.max(...continentStats.map(s => s.uniqueCurrencies))) * 100).toFixed(0)}% of max
+                    </Typography>
+                  </Box>
+
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.25 }}>
-                    {stat.currencies.slice(0, 3).map((currency, currIndex) => (
+                    {(expandedCurrencies[stat.continent.code] ? stat.currencies : stat.currencies.slice(0, 3)).map((currency, currIndex) => (
                       <Chip
                         key={currIndex}
                         label={currency}
@@ -518,8 +581,9 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
                     ))}
                     {stat.currencies.length > 3 && (
                       <Chip
-                        label={`+${stat.currencies.length - 3}`}
+                        label={expandedCurrencies[stat.continent.code] ? 'Show Less' : `+${stat.currencies.length - 3}`}
                         size="small"
+                        onClick={() => toggleCurrenciesExpanded(stat.continent.code)}
                         sx={{
                           fontSize: '0.65rem',
                           height: 20,
@@ -527,7 +591,14 @@ export const ContinentDashboard: React.FC<ContinentDashboardProps> = ({
                           color: 'success.main',
                           fontWeight: FONT_WEIGHTS.MEDIUM,
                           border: BORDER.SOLID_1,
-                          borderColor: 'success.main'
+                          borderColor: 'success.main',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            background: 'linear-gradient(135deg, rgba(76,175,80,0.2) 0%, rgba(76,175,80,0.1) 100%)',
+                            transform: 'scale(1.05)',
+                            boxShadow: '0 2px 8px rgba(76,175,80,0.3)'
+                          }
                         }}
                       />
                     )}
