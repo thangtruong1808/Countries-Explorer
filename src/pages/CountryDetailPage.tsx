@@ -19,11 +19,11 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { NavBar } from '../components/NavBar';
+import { CountryDetailPageSkeleton } from '../components/CountryDetailPageSkeleton';
 import { useCountries } from '../hooks/useCountries';
 import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS } from '../utils/colorUtils';
 import { getCountryDescription } from '../utils/countryDescription';
 import { getFlagUrl } from '../utils/flagUtils';
-import { ICON_STYLES } from '../utils/iconStyles';
 import { BORDER, BORDER_RADIUS, SPACING, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 
@@ -68,20 +68,13 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
 
   if (loading) {
     return (
-      <>
-        <NavBar
-          currentTab={currentTab}
-          onTabChange={onTabChange}
-          isDarkMode={isDarkMode}
-          onToggleTheme={onToggleTheme}
-          onFiltersToggle={onFiltersToggle}
-        />
-        <Container maxWidth="lg" sx={{ py: 8 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
-            <CircularProgress size={60} />
-          </Box>
-        </Container>
-      </>
+      <CountryDetailPageSkeleton
+        currentTab={currentTab}
+        onTabChange={onTabChange}
+        isDarkMode={isDarkMode}
+        onToggleTheme={onToggleTheme}
+        onFiltersToggle={onFiltersToggle}
+      />
     );
   }
 
@@ -598,7 +591,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               }}
             >
               <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'}&q=${encodeURIComponent(country.name)}`}
+                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(country.name)}`}
                 title={`Map of ${country.name}`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

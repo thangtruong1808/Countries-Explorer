@@ -1,4 +1,4 @@
-import type { Country } from '../types';
+import type { Country, Language } from '../types';
 
 // Extract all unique languages from countries with counts
 export const getAllLanguages = (countries: Country[]): Array<{ name: string; count: number }> => {
@@ -56,4 +56,19 @@ export const getCountriesWithMultipleLanguages = (
       }
       return a.country.name.localeCompare(b.country.name);
     });
+};
+
+/**
+ * Calculates language statistics for a given array of languages.
+ */
+export const getLanguageStatistics = (languages: Language[]) => {
+  const totalLanguages = languages.length;
+  const rtlLanguages = languages.filter(lang => lang.rtl).length;
+  const ltrLanguages = totalLanguages - rtlLanguages;
+
+  return {
+    total: totalLanguages,
+    rtl: rtlLanguages,
+    ltr: ltrLanguages
+  };
 }; 

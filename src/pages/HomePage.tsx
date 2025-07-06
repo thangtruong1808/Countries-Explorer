@@ -8,7 +8,7 @@ import type { Country } from '../types';
 import { RESPONSIVE_LAYOUT } from '../utils/layoutUtils';
 import { HomeTabs } from './HomePage/HomeTabs';
 import { MainTabContent } from './HomePage/MainTabContent';
-import { CountryDetail } from '../components';
+import { CountryDetail, LoadingSpinner } from '../components';
 
 export interface HomePageProps {
   isDarkMode: boolean;
@@ -160,7 +160,7 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
     [allFilteredCountries, selectedLanguages]
   );
 
-  if (loading) return <Box sx={RESPONSIVE_LAYOUT.FULL_HEIGHT_CONTAINER}>Loading...</Box>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <Box sx={RESPONSIVE_LAYOUT.FULL_HEIGHT_CONTAINER}>Error: {error.message}</Box>;
 
   return (

@@ -13,5 +13,6 @@ export { SideNav } from './SideNav';
 export { MultipleLanguagesInfo } from './MultipleLanguagesInfo';
 export { LoadMoreButton } from './LoadMoreButton';
 export { NavBar } from './NavBar';
+export { CountryDetailPageSkeleton } from './CountryDetailPageSkeleton';
 export { ContinentDashboard } from './ContinentDashboard/ContinentDashboard';
 export { DataVisualization } from './DataVisualization/DataVisualization'; 

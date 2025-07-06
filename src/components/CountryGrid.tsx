@@ -3,10 +3,10 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import type { Continent, Country } from '../types';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { getFilterSuggestions, getNoResultsMessage } from '../utils/messageUtils';
-import { BORDER, BORDER_RADIUS, SPACING, BADGE_STYLES, BUTTON_STYLES } from '../utils/styleUtils';
-import { FONT_WEIGHTS, FONT_SIZES } from '../utils/typographyUtils';
 import { RESPONSIVE_LAYOUT } from '../utils/layoutUtils';
+import { getFilterSuggestions, getNoResultsMessage } from '../utils/messageUtils';
+import { BORDER, BORDER_RADIUS, BUTTON_STYLES, SPACING } from '../utils/styleUtils';
+import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 import { CountryCard } from './CountryCard';
 
 interface CountryGridProps {

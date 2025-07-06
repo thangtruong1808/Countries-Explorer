@@ -216,12 +216,6 @@ export const SideNav: React.FC<SideNavProps> = ({
           </>
         )}
 
-        {/* Future Features Placeholder */}
-        {/* <Box sx={{ mt: SPACING.XL }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
-            More filters coming soon...
-          </Typography>
-        </Box> */}
       </Box>
     </Box>
   );

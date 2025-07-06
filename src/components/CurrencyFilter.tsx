@@ -72,7 +72,7 @@ export const CurrencyFilter: React.FC<CurrencyFilterProps> = ({
       <Box sx={{ mb: 1.5 }}> {/* Reduced from 2 */}
         <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
           <CurrencyIcon sx={ICON_STYLES.PRIMARY} />
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.MD }}>
             Filter by currency ({currencies.length} available{isFiltered ? ' in filtered countries' : ''})
           </Typography>
         </Box>

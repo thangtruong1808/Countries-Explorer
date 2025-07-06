@@ -1,11 +1,11 @@
-import { Email as EmailIcon, GitHub as GitHubIcon, Language as LanguageIcon } from '@mui/icons-material';
+import { Email as EmailIcon, GitHub as GitHubIcon, Facebook as FacebookIcon, LinkedIn as LinkedInIcon } from '@mui/icons-material';
 import { Avatar, Box, Container, Divider, Link, Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import thangTruongImage from '../assets/thang-truong.jpg';
 import { APP_TITLE } from '../constants';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { BORDER, SPACING, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
+import { BORDER, BORDER_RADIUS, SPACING, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 import { createTitleClickHandler, NAVIGATION_STYLES } from '../utils/navigationUtils';
 
@@ -83,48 +83,118 @@ export const Footer: React.FC = () => {
               Quick Links
             </Typography>
             <Link
-              href="https://github.com/thangtruong1808/Countries-Explorer"
+              href={import.meta.env.VITE_GITHUB_URL || "#"}
               target="_blank"
               rel="noopener noreferrer"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 0.5,
+                gap: 0.75,
                 color: 'text.secondary',
                 textDecoration: 'none',
                 fontSize: FONT_SIZES.SM,
                 fontWeight: FONT_WEIGHTS.MEDIUM,
-                transition: TRANSITIONS.NORMAL,
+                padding: '8px 12px',
+                borderRadius: BORDER_RADIUS.MEDIUM,
+                background: 'transparent',
+                border: BORDER.SOLID_1,
+                borderColor: 'transparent',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
                   color: 'primary.main',
-                  transform: TRANSFORMS.HOVER_LIFT
+                  background: 'rgba(25, 118, 210, 0.08)',
+                  borderColor: 'primary.main',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 12px rgba(25, 118, 210, 0.15)',
+                  '& .MuiSvgIcon-root': {
+                    transform: 'scale(1.1)',
+                    filter: 'drop-shadow(0 2px 4px rgba(25, 118, 210, 0.3))'
+                  }
                 }
               }}
             >
-              <GitHubIcon sx={{ fontSize: 16 }} />
+              <GitHubIcon sx={{
+                fontSize: 18,
+                color: '#333',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }} />
               GitHub
             </Link>
             <Link
-              href="https://react.dev"
+              href={import.meta.env.VITE_FB_URL || "#"}
               target="_blank"
               rel="noopener noreferrer"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 0.5,
+                gap: 0.75,
                 color: 'text.secondary',
                 textDecoration: 'none',
                 fontSize: FONT_SIZES.SM,
                 fontWeight: FONT_WEIGHTS.MEDIUM,
-                transition: TRANSITIONS.NORMAL,
+                padding: '8px 12px',
+                borderRadius: BORDER_RADIUS.MEDIUM,
+                background: 'transparent',
+                border: BORDER.SOLID_1,
+                borderColor: 'transparent',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 '&:hover': {
-                  color: 'primary.main',
-                  transform: TRANSFORMS.HOVER_LIFT
+                  color: '#1877f2',
+                  background: 'rgba(24, 119, 242, 0.08)',
+                  borderColor: '#1877f2',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 12px rgba(24, 119, 242, 0.15)',
+                  '& .MuiSvgIcon-root': {
+                    transform: 'scale(1.1)',
+                    filter: 'drop-shadow(0 2px 4px rgba(24, 119, 242, 0.3))'
+                  }
                 }
               }}
             >
-              <LanguageIcon sx={{ fontSize: 16 }} />
-              React Documentation
+              <FacebookIcon sx={{
+                fontSize: 18,
+                color: '#1877f2',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }} />
+              Facebook
+            </Link>
+            <Link
+              href={import.meta.env.VITE_LINKEDIN_URL || import.meta.env.VITE_LinkedIn_URL || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.75,
+                color: 'text.secondary',
+                textDecoration: 'none',
+                fontSize: FONT_SIZES.SM,
+                fontWeight: FONT_WEIGHTS.MEDIUM,
+                padding: '8px 12px',
+                borderRadius: BORDER_RADIUS.MEDIUM,
+                background: 'transparent',
+                border: BORDER.SOLID_1,
+                borderColor: 'transparent',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  color: '#0077b5',
+                  background: 'rgba(0, 119, 181, 0.08)',
+                  borderColor: '#0077b5',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 12px rgba(0, 119, 181, 0.15)',
+                  '& .MuiSvgIcon-root': {
+                    transform: 'scale(1.1)',
+                    filter: 'drop-shadow(0 2px 4px rgba(0, 119, 181, 0.3))'
+                  }
+                }
+              }}
+            >
+              <LinkedInIcon sx={{
+                fontSize: 18,
+                color: '#0077b5',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }} />
+              LinkedIn
             </Link>
           </Box>
 
@@ -177,7 +247,29 @@ export const Footer: React.FC = () => {
                 fontWeight: FONT_WEIGHTS.MEDIUM
               }}
             >
-              GraphQL 16.11.0
+              GraphQL 16.11.0 • React Router 7.6.3
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+                textAlign: { xs: 'center', md: 'right' },
+                fontSize: FONT_SIZES.SM,
+                fontWeight: FONT_WEIGHTS.MEDIUM
+              }}
+            >
+              Chart.js 4.5.0 • Zustand 5.0.6
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+                textAlign: { xs: 'center', md: 'right' },
+                fontSize: FONT_SIZES.SM,
+                fontWeight: FONT_WEIGHTS.MEDIUM
+              }}
+            >
+              Emotion 11.14.0 • Vite 7.0.0
             </Typography>
           </Box>
         </Box>

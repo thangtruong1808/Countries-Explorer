@@ -2,9 +2,9 @@ import { Public as ContinentIcon } from '@mui/icons-material';
 import { Box, Chip, Typography } from '@mui/material';
 import React from 'react';
 import type { Continent, Country } from '../types';
-import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS } from '../utils/colorUtils';
-import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
+import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
 import { getContinentCounts, getUniqueContinents } from '../utils/continentUtils';
+import { FILTER_COMPONENT_STYLES } from '../utils/filterComponentStyles';
 import { ICON_STYLES } from '../utils/iconStyles';
 import { BORDER, BOX_SHADOWS, CURSORS, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
@@ -43,7 +43,7 @@ export const ContinentFilter: React.FC<ContinentFilterProps> = ({
     <Box>
       <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
         <ContinentIcon sx={ICON_STYLES.PRIMARY} />
-        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.MD }}>
           Filter by continent ({availableContinents.length} available{isFiltered ? ' in filtered countries' : ''})
         </Typography>
       </Box>

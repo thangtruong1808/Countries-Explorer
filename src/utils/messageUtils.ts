@@ -2,7 +2,7 @@
  * Utility functions for generating user-friendly messages
  */
 
-import type { Country, Continent } from '../types';
+import type { Continent } from '../types';
 
 // Generate specific "no results" message based on current filters
 export const getNoResultsMessage = (

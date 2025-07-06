@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button, Box, CircularProgress, Typography } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon, TrendingUp as TrendingUpIcon } from '@mui/icons-material';
-import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { SPACING, BORDER_RADIUS, TRANSITIONS, TRANSFORMS, BORDER } from '../utils/styleUtils';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import React from 'react';
+import { BACKGROUND_COLORS } from '../utils/colorUtils';
+import { BORDER, BORDER_RADIUS, SPACING } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 
 interface LoadMoreButtonProps {

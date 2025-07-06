@@ -1,8 +1,8 @@
-import { BarChart as ChartIcon, Dashboard as DashboardIcon, FilterList as FilterIcon, Home as HomeIcon, LightMode as LightModeIcon, DarkMode as DarkModeIcon, Public as PublicIcon, Menu as MenuIcon } from '@mui/icons-material';
-import { AppBar, Box, Container, Tab, Tabs, Toolbar, Typography, useTheme, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material';
+import { BarChart as ChartIcon, DarkMode as DarkModeIcon, Dashboard as DashboardIcon, FilterList as FilterIcon, Home as HomeIcon, LightMode as LightModeIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { AppBar, Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from '@mui/material';
 import React, { useState } from 'react';
-import { NAVBAR_STYLES } from '../utils/navBarStyles';
 import { APP_TITLE } from '../constants';
+import { NAVBAR_STYLES } from '../utils/navBarStyles';
 
 interface NavBarProps {
   currentTab: string;

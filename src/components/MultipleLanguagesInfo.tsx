@@ -1,10 +1,9 @@
-import React from 'react';
-import { Box, Typography, Chip, Divider } from '@mui/material';
 import { Translate as LanguageIcon } from '@mui/icons-material';
+import { Box, Chip, Divider, Typography } from '@mui/material';
+import React from 'react';
 import type { Country } from '../types';
-import { ICON_STYLES } from '../utils/iconStyles';
-import { PRIMARY_COLORS, BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
-import { SPACING, BORDER_RADIUS, TRANSITIONS, TRANSFORMS, BORDER } from '../utils/styleUtils';
+import { BACKGROUND_COLORS, BORDER_COLORS, PRIMARY_COLORS } from '../utils/colorUtils';
+import { BORDER, BORDER_RADIUS, SPACING, TRANSFORMS, TRANSITIONS } from '../utils/styleUtils';
 import { FONT_SIZES, FONT_WEIGHTS } from '../utils/typographyUtils';
 
 interface MultipleLanguagesInfoProps {

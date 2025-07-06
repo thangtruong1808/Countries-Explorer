@@ -34,7 +34,7 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
       <Box>
         <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
           <LanguageIcon sx={ICON_STYLES.PRIMARY} />
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.MD }}>
             Filter by language
           </Typography>
         </Box>
@@ -49,7 +49,7 @@ export const LanguageFilter: React.FC<LanguageFilterProps> = ({
     <Box>
       <Box sx={FILTER_COMPONENT_STYLES.COMPACT_HEADER}>
         <LanguageIcon sx={ICON_STYLES.PRIMARY} />
-        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.XL }}>
+        <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: FONT_WEIGHTS.SEMIBOLD, fontSize: FONT_SIZES.MD }}>
           Filter by language ({languages.length} available{isFiltered ? ' in filtered countries' : ''})
         </Typography>
       </Box>
