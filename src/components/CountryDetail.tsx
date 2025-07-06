@@ -247,7 +247,7 @@ export const CountryDetail: React.FC<CountryDetailProps> = ({
                 }}
               >
                 <iframe
-                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(country.name)}`}
+                  src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'}&q=${encodeURIComponent(country.name)}`}
                   title={`Map of ${country.name}`}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"

@@ -442,6 +442,69 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
                 </Box>
               )}
 
+              {/* Languages */}
+              {country.languages && country.languages.length > 0 && (
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: SPACING.MD,
+                  p: SPACING.MD,
+                  borderRadius: BORDER_RADIUS.MEDIUM,
+                  background: BACKGROUND_COLORS.HOVER,
+                  border: BORDER.SOLID_1,
+                  borderColor: BORDER_COLORS.DIVIDER,
+                  transition: TRANSITIONS.NORMAL,
+                  minHeight: 80,
+                  '&:hover': {
+                    borderColor: 'primary.main',
+                    background: BACKGROUND_COLORS.PAPER,
+                    transform: TRANSFORMS.HOVER_LIFT,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  }
+                }}>
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 48,
+                    height: 48,
+                    borderRadius: BORDER_RADIUS.MEDIUM,
+                    background: PRIMARY_COLORS.LIGHT,
+                    color: 'primary.main',
+                    flexShrink: 0
+                  }}>
+                    <LanguageIcon sx={{ fontSize: 24 }} />
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: FONT_SIZES.SM, mb: 0.5, fontWeight: FONT_WEIGHTS.MEDIUM }}>
+                      Languages ({country.languages.length})
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {country.languages.map((language, index) => (
+                        <Chip
+                          key={index}
+                          label={language.name}
+                          size="small"
+                          sx={{
+                            fontSize: FONT_SIZES.SM,
+                            height: 24,
+                            background: PRIMARY_COLORS.LIGHT,
+                            color: 'primary.main',
+                            border: BORDER.SOLID_1,
+                            borderColor: 'primary.main',
+                            fontWeight: FONT_WEIGHTS.MEDIUM,
+                            '&:hover': {
+                              background: PRIMARY_COLORS.MEDIUM,
+                              transform: TRANSFORMS.HOVER_LIFT,
+                            }
+                          }}
+                        />
+                      ))}
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+
               {/* Country Code */}
               <Box sx={{
                 display: 'flex',
@@ -535,7 +598,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               }}
             >
               <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(country.name)}`}
+                src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'}&q=${encodeURIComponent(country.name)}`}
                 title={`Map of ${country.name}`}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

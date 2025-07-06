@@ -1,7 +1,20 @@
 {
-  "name": "reactcountriesexploer",
+  "name": "react-countries-explorer-with-graphql",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Explore countries, continents, languages, and currencies with interactive visualizations",
+  "keywords": [
+    "countries",
+    "world",
+    "geography",
+    "languages",
+    "currencies",
+    "react",
+    "typescript",
+    "data-visualization"
+  ],
+  "author": "Thang-Truong",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -28,6 +41,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
+    "@vitejs/plugin-react-swc": "^3.10.2",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

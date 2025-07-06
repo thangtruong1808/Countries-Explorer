@@ -1,0 +1,21 @@
+{
+  "name": "React Countries Explorer with GraphQL",
+  "short_name": "Countries Explorer",
+  "description": "Explore countries, continents, languages, and currencies with interactive visualizations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1976d2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "travel", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
+} 

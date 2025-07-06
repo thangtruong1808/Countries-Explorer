@@ -126,4 +126,26 @@ export const getCurrencyDiversity = (countries: Country[]) => {
     mostCommonCount: currencies[0]?.count || 0,
     currencyDistribution: currencies.slice(0, 10) // Top 10 currencies
   };
+};
+
+/**
+ * Get countries with many languages spoken
+ */
+export const getCountriesWithManyLanguages = (countries: Country[]) => {
+  const countriesWithLanguages = countries
+    .filter(country => country.languages && country.languages.length > 0)
+    .map(country => ({
+      name: country.name,
+      languageCount: country.languages.length,
+      languages: country.languages.map(lang => lang.name)
+    }))
+    .sort((a, b) => b.languageCount - a.languageCount);
+
+  return {
+    topCountry: countriesWithLanguages[0] || null,
+    topCountries: countriesWithLanguages.slice(0, 5), // Top 5 countries with most languages
+    averageLanguages: countriesWithLanguages.length > 0 
+      ? (countriesWithLanguages.reduce((sum, country) => sum + country.languageCount, 0) / countriesWithLanguages.length).toFixed(1)
+      : '0'
+  };
 }; 
