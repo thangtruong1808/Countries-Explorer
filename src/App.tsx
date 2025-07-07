@@ -5,7 +5,6 @@ import { Footer } from './components';
 import { CountryDetailPage } from './pages/CountryDetailPage';
 import { HomePage } from './pages/HomePage';
 import { LAYOUT_STYLES } from './utils/layoutUtils';
-import { createTitleClickHandler } from './utils/navigationUtils';
 
 interface AppProps {
   isDarkMode: boolean;
@@ -16,8 +15,6 @@ const App: React.FC<AppProps> = ({ isDarkMode, onToggleTheme }) => {
   const navigate = useNavigate();
   const [currentTab, setCurrentTab] = useState('home');
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-
-  const handleTitleClick = createTitleClickHandler(navigate);
 
   const handleTabChange = (tab: string) => {
     setCurrentTab(tab);

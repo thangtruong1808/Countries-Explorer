@@ -63,7 +63,7 @@ export const CurrencyFilter: React.FC<CurrencyFilterProps> = ({
   };
 
   // Handle tab change
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     setActiveTab(newValue);
   };
 

@@ -23,7 +23,7 @@ export const NavBar: React.FC<NavBarProps> = ({
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     if (newValue === 'theme') {
       onToggleTheme();
       return;

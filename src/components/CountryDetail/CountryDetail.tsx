@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogContent } from '@mui/material';
 import type { Country } from '../../types';
 import { getCountryDescription } from '../../utils/countryDescription';
 import { CountryDetailHeader } from './CountryDetailHeader';

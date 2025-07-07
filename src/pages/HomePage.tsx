@@ -32,13 +32,11 @@ export const HomePage: React.FC<HomePageProps> = ({ isDarkMode, onToggleTheme })
 
   // Pagination store
   const {
-    itemsPerLoad,
     totalDisplayed,
     hasMore,
     isLoading: paginationLoading,
     loadMore,
     resetPagination,
-    setHasMore,
     setLoading
   } = usePaginationStore();
 

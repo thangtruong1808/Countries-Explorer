@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import {
   Box,
   Drawer,
@@ -19,12 +19,10 @@ import { ContinentFilter } from './ContinentFilter';
 import { LanguageFilter } from './LanguageFilter';
 import { CurrencyFilter } from './CurrencyFilter';
 import type { Continent, Country } from '../types';
-import { Z_INDEX } from '../utils/styleConstants';
 import { useClickOutside } from '../utils/clickOutside';
 import { SPACING, BORDER_RADIUS } from '../utils/styleUtils';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
 import {
-  getCountriesByContinents,
   getCountriesByContinentsAndLanguages,
   getCountriesByContinentsAndCurrencies,
   getCountriesByLanguagesAndCurrencies,

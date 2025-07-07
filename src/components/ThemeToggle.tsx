@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, Tooltip, Box } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { LightMode as LightModeIcon, DarkMode as DarkModeIcon } from '@mui/icons-material';
 import { BACKGROUND_COLORS, BORDER_COLORS } from '../utils/colorUtils';
 import { BORDER, BOX_SHADOWS } from '../utils/styleUtils';
